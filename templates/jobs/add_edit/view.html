@@ -1,0 +1,175 @@
+{% extends "base/base.html" %}
+
+{% block title %}{% if job %}Editing job{% else %}Add job {% endif %} &mdash; {{ block.super }}{% endblock %}
+{% block subtitle %}{% if job %}Editing job{% else %}Add job {% endif %}{% endblock %}
+
+{% block container %}
+
+{% if form.non_field_errors %}
+<div class="alert alert-danger mb-5">
+  <h4 class="alert-heading">
+    Validation error
+  </h4>
+  <hr>
+  {% for x in form.non_field_errors %}
+    <p class="mb-1">{{ x }}</p>
+  {% endfor %}
+</div>
+{% endif %}
+
+<p class="text-right mb-4">
+  {% switch job.state.name|default:"NEW" %}
+  {% case "NEW" %}
+    <strong>New</strong> &rarr; Waiting for approval &rarr; Live
+  {% endcase %}
+  {% case "WAITING_FOR_APPROVAL" %}
+    New &rarr; <strong>Waiting for approval</strong> &rarr; Live
+  {% endcase %}
+  {% case "LIVE" %}
+    New &rarr; Waiting for approval &rarr; <strong>Live</strong>
+  {% endcase %}
+  {% endswitch %}
+</p>
+
+<form
+  method="POST"
+  class=""
+  action=""
+  {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
+>
+  {% csrf_token %}
+
+  <div class="form-group col-md-12">
+    <label class="col-form-label" for="{{ form.title.id_for_label }}">
+      Job title
+    </label>
+    <input
+      id="{{ form.title.id_for_label }}"
+      type="text"
+      class="form-control {% if form.errors %}{% if form.errors.title %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+      name="{{ form.title.html_name }}"
+      value="{{ form.title.value|default:"" }}"
+      maxlength="{{ form.title.field.max_length|default:"" }}"
+      placeholder=""
+      {% if form.title.field.required %}required{% endif %}
+    >
+    {% for x in form.errors.title %}
+      <div class="invalid-feedback">{{ x }}</div>
+    {% endfor %}
+  </div>
+
+  <div class="form-group col-md-12">
+    <label class="col-form-label" for="{{ form.job_type.id_for_label }}">
+      Job type
+    </label>
+    <select
+      id="{{ form.job_type.id_for_label }}"
+      class="form-control {% if form.errors %}{% if form.errors.job_type %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+      name="{{ form.job_type.html_name }}"
+    >
+      {% for val, display in form.job_type.field.choices %}
+      <option
+        value="{{ val }}"
+        {% if form.job_type.value|stringformat:"s" == val|stringformat:"s" %}selected{% endif %}
+      >{{ display }}</option>
+      {% endfor %}
+    </select>
+    {% for x in form.errors.job_type %}
+      <div class="invalid-feedback">{{ x }}</div>
+    {% endfor %}
+  </div>
+
+  <div class="form-group col-md-12">
+    <label class="col-form-label" for="{{ form.location.id_for_label }}">
+      Location
+    </label>
+    <input
+      id="{{ form.location.id_for_label }}"
+      type="text"
+      class="form-control {% if form.errors %}{% if form.errors.location %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+      name="{{ form.location.html_name }}"
+      value="{{ form.location.value|default:"" }}"
+      maxlength="{{ form.location.field.max_length|default:"" }}"
+      placeholder=""
+      {% if form.location.field.required %}required{% endif %}
+    >
+    {% for x in form.errors.location %}
+      <div class="invalid-feedback">{{ x }}</div>
+    {% empty %}
+      <small class="form-text text-muted">
+        Please enter where the job is located or "Remote".
+      </small>
+    {% endfor %}
+  </div>
+
+  <div class="form-group col-md-12">
+    <label class="col-form-label" for="{{ form.apply_url.id_for_label }}">
+      URL to apply
+    </label>
+    <input
+      id="{{ form.apply_url.id_for_label }}"
+      type="url"
+      class="form-control {% if form.errors %}{% if form.errors.apply_url %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+      name="{{ form.apply_url.html_name }}"
+      value="{{ form.apply_url.value|default:"" }}"
+      maxlength="{{ form.apply_url.field.max_length|default:"" }}"
+      placeholder=""
+      {% if form.apply_url.field.required %}required{% endif %}
+    >
+    {% for x in form.errors.apply_url %}
+      <div class="invalid-feedback">{{ x }}</div>
+    {% empty %}
+      <small class="form-text text-muted">
+        Enter the address where applicants should submit their CV, etc.
+      </small>
+    {% endfor %}
+  </div>
+
+  <div class="form-group col-md-12">
+    <label class="col-form-label" for="{{ form.description.id_for_label }}">
+      Description
+    </label>
+    <textarea
+      id="{{ form.description.id_for_label }}"
+      rows="10"
+      class="form-control {% if form.errors %}{% if form.errors.description %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+      name="{{ form.description.html_name }}"
+      {% if form.description.field.required %}required{% endif %}
+    >{{ form.description.value|default:"" }}</textarea>
+    {% for x in form.errors.description %}
+      <div class="invalid-feedback">{{ x }}</div>
+    {% empty %}
+      <small class="form-text text-muted">
+        <a href="#" data-toggle="modal" data-target="#markdown-cheatsheet">Markdown</a> is supported.
+      </small>
+    {% endfor %}
+  </div>
+
+  <button type="submit" class="btn btn-primary my-3">
+    {% if job %}
+      Save
+    {% else %}
+      Create job
+    {% endif %}
+  </button>
+</form>
+
+<div class="modal fade" id="markdown-cheatsheet" tabindex="-1" role="dialog" aria-labelledby="markdown-cheatsheet-title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% markdown_cheatsheet %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

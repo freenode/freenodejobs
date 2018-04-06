@@ -1,0 +1,89 @@
+{% extends "base/base.html" %}
+
+{% block body_classes %}{{ block.super }} f_jobs_view{% endblock %}
+
+{% block title %}{{ form.get_title }} &mdash; {{ block.super }}{% endblock %}
+{% block subtitle %}{{ form.get_title }} <b>({{ page.paginator.count|intcomma }})</b>{% endblock %}
+
+{% block container %}
+
+<div class="row job">
+  <div class="col-sm-3">
+
+    <form method="GET" action="" class="search-company">
+      <div class="row">
+        <div class="col-md-12">
+          <label>Job type</label>
+          <select
+            id="{{ form.job_type.id_for_label }}"
+            size
+            class="js-job-type form-control {% if form.errors %}{% if form.errors.job_type %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+            name="{{ form.job_type.html_name }}"
+          >
+            {% for val, display in form.job_type.field.choices %}
+            <option
+              value="{{ val }}"
+              {% if form.job_type.value|stringformat:"s" == val|stringformat:"s" %}selected{% endif %}
+            >{% if val %}{{ display }}{% else %}All jobs{% endif %}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <label>Job type</label>
+          <input
+            id="{{ form.q.id_for_label }}"
+            type="search"
+            class="form-control {% if form.errors %}{% if form.errors.q %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+            name="{{ form.q.html_name }}"
+            value="{{ form.q.value|default:"" }}"
+            maxlength="{{ form.q.field.max_length|default:"" }}"
+            placeholder="Search"
+            {% if form.q.field.required %}required{% endif %}
+          >
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-default btn-block">Search</button>
+      {% if form.has_data %}
+      <a href="{% url "jobs:view" %}" class="btn btn-secondary btn-block btn-sm">Clear</a>
+      {% endif %}
+    </form>
+  </div>
+
+  <div class="col-sm-9 job">
+    <div class="info">
+      {{ form.get_title }} <b>({{ page.paginator.count|intcomma }})</b>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        {% for job in page.object_list %}
+        <div class="list">
+          <a href="{{ job.get_absolute_url }}">
+            <img class="logo-company" src="{{ job.user.profile.image.resized.url }}" alt="{{ job.user.profile.name }}">
+          </a>
+          <h2><a href="{{ job.get_absolute_url }}">{{ job.title }}</a></h2>
+          <p>
+            {% include "includes/job_type.html" %}
+            <a href="{{ job.get_absolute_url }}">{{ job.user.profile.name }}</a>
+            <i class="fa fa-map-marker"></i> {{ job.location }}
+            <span>{{ job.description|markdown|truncatewords_html:10 }}</span>
+          </p>
+          <div class="clearfix"></div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="row">
+        <div class="col-md-12 mt-3">
+          {% include "includes/pagination.html" %}
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+
+{% endblock %}

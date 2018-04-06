@@ -1,0 +1,127 @@
+{% extends "base/generic_base.html" %}
+
+{% block body_classes %}{{ block.super }} f_base page{% endblock %}
+
+{% block messages %}{% endblock %}
+
+{% block body %}
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="{% url "static:landing" %}">Freenode Jobs</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "dashboard:view" %}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "profile:view" %}">Profile</a>
+        </li>
+        {% if request.user.is_staff %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url "admin:view" %}">Admin</a>
+        </li>
+        {% endif %}
+        {% else %}
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url "static:landing" %}">Home</a>
+        </li>
+        {% endif %}
+      </ul>
+
+      <ul class="navbar-nav my-2 my-lg-0">
+
+        {% if request.user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Logged in as {{ request.user.email }}
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <div class="navbar-content">
+                <div class="row">
+                  <div class="col-md-5 col-5">
+                    {% if request.user.profile.image.exists %}
+                    <img src="{{ request.user.profile.image.resized.url }}" alt="" class="img-responsive" />
+                    {% else %}
+                    <img src="{% static "img/f_base/default_profile.png" %}" alt="" class="img-responsive" />
+                    {% endif %}
+                    {% comment %}
+                    <p class="text-center small">
+                      <a href="{% url "profile:view" %}">Change Photo</a>
+                    </p>
+                    {% endcomment %}
+                  </div>
+                  <div class="col-md-7 col-7">
+                    {% comment %}
+                    <span>{{ request.user.email }}</span>
+                    {% endcomment %}
+                    <p class="text-muted small">
+                      &nbsp;
+                    </p>
+                    <div class="divider"></div>
+                    <a href="{% url "profile:view" %}" class="viewprofile">View Profile</a>
+                    <ul class="menu-setting">
+                      <li><a href="{% url "dashboard:view" %}">Dashboard</a></li>
+                      {% if request.user.is_staff %}
+                      <li><a href="{% url "admin:view" %}">Site admin</a></li>
+                      {% endif %}
+                    </ul>
+                    <div class="divider"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="navbar-footer">
+                <div class="navbar-footer-content">
+                  <div class="row">
+                    <div class="col-md-6 col-6">
+                      <a href="{% url "account:password-change" %}" class="bt-white">Change Password</a>
+                    </div>
+                    <div class="col-md-6 col-6">
+                      <a href="{% url "account:logout" %}" class="bt-white pull-right">Logout</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </li>
+        {% else %}
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url "account:login" %}">Login</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url "jobs:add-edit:add" %}">Post a job</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% block content %}
+<div class="titlex">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        # {% block subtitle %}{% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include "includes/messages.html" %}
+
+<div class="container">
+  {% block container %}{% endblock %}
+</div>
+{% endblock %}
+
+{% include "includes/footer.html" %}
+
+{% endblock %}

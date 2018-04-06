@@ -1,0 +1,19 @@
+{% extends email_from_template %}
+
+{% block subject %}
+Your job on Freenode Jobs was approved
+{% endblock %}
+
+{% block body %}
+Hi,
+
+Your job on Freenode Jobs was approved and is now live. You can view it here:
+
+  {{ settings.SITE_URL }}{{ job.get_absolute_url }}
+
+
+Regards,
+
+-- 
+Freenode Jobs
+{% endblock %}

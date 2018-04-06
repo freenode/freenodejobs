@@ -1,0 +1,46 @@
+---
+- name: pkg
+  apt:
+    pkg=nginx
+    state=latest
+    default_release={{ debian_release }}-backports
+
+- name: nginx.conf
+  template:
+    src=nginx.conf
+    dest=/etc/nginx/nginx.conf
+    mode=644
+  notify:
+    restart nginx
+
+- name: nginx.ssl.conf
+  template:
+    src=nginx.ssl.conf
+    dest=/etc/nginx/nginx.ssl.conf
+    mode=644
+  notify:
+    restart nginx
+
+- name: dhparam.pem
+  copy:
+    src=dhparam.pem
+    dest=/etc/nginx/dhparam.pem
+    mode=0640
+  notify:
+    restart nginx
+
+- name: fullchain.pem
+  copy:
+    src=fullchain.pem
+    dest=/etc/nginx/fullchain.pem
+    mode=0640
+  notify:
+    restart nginx
+
+- name: privkey.pem
+  copy:
+    src=privkey.pem
+    dest=/etc/nginx/privkey.pem
+    mode=0640
+  notify:
+    restart nginx

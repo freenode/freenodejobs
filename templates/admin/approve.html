@@ -1,0 +1,40 @@
+{% extends "base/base.html" %}
+
+{% block title %}Approve job? &mdash; {{ block.super }}{% endblock %}
+{% block subtitle %}Approve this job?{% endblock %}
+
+{% block container %}
+
+<p>
+  Are you sure you want to approve this job?
+</p>
+
+{% if form.non_field_errors %}
+<div class="alert alert-danger mb-5">
+  <h4 class="alert-heading">
+    Validation error
+  </h4>
+  <hr>
+  {% for x in form.non_field_errors %}
+    <p class="mb-1">{{ x }}</p>
+  {% endfor %}
+</div>
+{% endif %}
+
+<form
+  method="POST"
+  class=""
+  action=""
+  {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
+>
+  {% csrf_token %}
+
+  <button type="submit" class="btn btn-primary my-3">
+    Approve
+  </button>
+  <a href="{{ job.get_absolute_url }}" class="btn btn-outline-primary my-3">
+    Cancel
+  </a>
+</form>
+
+{% endblock %}

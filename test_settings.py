@@ -1,0 +1,1 @@
+from freenodejobs.settings import *

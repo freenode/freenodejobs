@@ -1,0 +1,20 @@
+sudo: required
+language: python
+python:
+  - "3.5"
+
+services:
+  - docker
+
+env:
+  - TRAVIS_DEBIAN_DISTRIBUTION=stretch TRAVIS_DEBIAN_NETWORK_ENABLED=true TRAVIS_DEBIAN_INCREMENT_VERSION_NUMBER=true TRAVIS_DEBIAN_GIT_BUILDPACKAGE_OPTIONS="--git-builder='debuild --no-lintian'"
+
+script:
+  - wget -O- http://travis.debian.net/script.sh | sh -
+
+deploy:
+  script: config/deploy
+  provider: script
+  skip_cleanup: true
+  on:
+    branch: master

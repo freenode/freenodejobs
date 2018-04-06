@@ -1,0 +1,10 @@
+DJANGO_BASE_DIR="{{ base_dir }}"
+DJANGO_SITE_URL="{{ canonical_domain_name }}"
+
+AWS_ACCESS_KEY_ID="{{ aws_access_key_id }}"
+AWS_DEFAULT_REGION="{{ aws_default_region }}"
+AWS_SECRET_ACCESS_KEY="{{ aws_secret_access_key }}"
+
+{% if s3_use_sigv4 %}
+S3_USE_SIGV4=1
+{% endif %}

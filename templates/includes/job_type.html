@@ -1,0 +1,11 @@
+{% switch job.job_type.name %}
+  {% case "FULL_TIME" %}
+  <a href="{% url "jobs:full-time" %}" class="type internship">Full time</a>
+  {% endcase %}
+  {% case "PART_TIME" %}
+  <a href="{% url "jobs:part-time" %}" class="type internship">Part time</a>
+  {% endcase %}
+  {% case "CONTRACT" %}
+  <a href="{% url "jobs:contract" %}" class="type internship">Contract</a>
+  {% endcase %}
+{% endswitch %}

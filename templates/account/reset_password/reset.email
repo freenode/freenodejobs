@@ -1,0 +1,22 @@
+{% extends email_from_template %}
+
+{% block subject %}
+Password reset request
+{% endblock %}
+
+{% block body %}
+Hi,
+
+A password reset was requested for your account Freenode Jobs. If you did not
+make the request, please ignore this message.
+
+In order to reset your password, please follow this link:
+
+  {{ settings.SITE_URL }}{% url "account:reset-password:reset" token %}
+
+
+Regards,
+
+-- 
+Freenode Jobs
+{% endblock %}

@@ -1,0 +1,1 @@
+rsync -av --delete /var/lib/redis/ /var/backups/redis/

@@ -1,0 +1,134 @@
+{% extends "base/base.html" %}
+
+{% block body_classes %}{{ block.super }} page f_jobs_job{% endblock %}
+
+{% block title %}{{ job.title }} &mdash; {{ job.user.profile.name }} &mdash; {{ block.super }}{% endblock %}
+{% block subtitle %}{{ job.title }} &mdash; {{ job.user.profile.name }}{% endblock %}
+
+{% block container %}
+
+{% if request.user.is_staff and job.state.name == "WAITING_FOR_APPROVAL" %}
+<div class="card bg-light mb-3">
+  <div class="card-body">
+    <h5 class="card-title">This job is pending approval.</h5>
+    <a href="{% url "admin:approve" job.slug %}" class="card-link">Approve</a>
+    <a href="{% url "admin:reject" job.slug %}" class="card-link">Reject</a>
+  </div>
+</div>
+{% endif  %}
+
+{% if request.user == job.user %}
+{% switch job.state.name %}
+{% case "NEW" %}
+<div class="card bg-light mb-3">
+  <div class="card-body">
+    <h5 class="card-title">
+      This is a preview of your job posting.
+    </h5>
+    <form method="POST" action="{% url "jobs:add-edit:submit-for-approval" job.slug %}" class="form-inline">
+      {% csrf_token %}
+      <a href="{% url "jobs:add-edit:edit" job.slug %}" class="btn btn-primary mr-1">Edit</a>
+      <button type="submit" class="btn btn-secondary">Submit for approval</button>
+    </form>
+  </div>
+</div>
+{% endcase %}
+{% case "WAITING_FOR_APPROVAL" %}
+<div class="card bg-light mb-3">
+  <div class="card-body">
+    <h5 class="card-title">
+      This is a preview of your job posting.
+    </h5>
+    <p class="card-text">
+      It is currently is waiting approval by a moderator and should appear on
+      the site shortly.
+    </p>
+    <a href="{% url "jobs:add-edit:edit" job.slug %}" class="card-link">Edit job</a>
+  </div>
+</div>
+{% endcase %}
+{% endswitch %}
+{% endif %}
+
+<div class="detail-job">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="box">
+          <h1>{{ job.title }}</h1>
+          <div class="info">
+            {% include "includes/job_type.html" %}
+            <i class="fa fa-map-marker ml-3" aria-hidden="true"></i> {{ job.location }}
+          </div>
+          <div class="content">
+            <div class="dates">
+              <div class="row">
+                <div class="col-md-6 col-6">
+                  <b>Posted date:</b> {{ job.updated|date:"M d, Y" }}
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+
+            <hr>
+
+            <h3><img src="{% static "img/f_jobs_job/paper.png" %}" alt=""> Description</h3>
+            {{ job.description|markdown }}
+            <br>
+
+            <div id="apply">
+              <a rel="nofollow" href="{{ job.apply_url }}" class="btn btn-default btn-block">Apply</a>
+            </div>
+
+            {% comment %}
+            <div id="tag">
+              <a href="#">HTML</a><a href="#">CSS</a><a href="#">Bootstrap</a><a href="#">Frontend Enginer</a><a href="#">Remote</a>
+            </div>
+            {% endcomment %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="sidebar-job">
+          <div class="company">
+            <a href="{{ job.user.profile.url }}" rel="nofollow">
+              <img class="logo" src="{{ job.user.profile.image.resized.url }}" alt="">
+            </a>
+            <h3><a href="{{ job.user.profile.url }}" rel="nofollow">{{ job.user.profile.name }}</a></h3>
+            {% comment %}
+            <p>We build, acquire and invest in awesome products</p>
+            <a href="#"><i class="fa fa-globe" aria-hidden="true"></i></a>
+            {% endcomment %}
+          </div>
+          <div id="mini-apply">
+            <a href="{{ job.apply_url }}" rel="nofollow" class="btn btn-default btn-block">Apply</a>
+          </div>
+
+        </div>
+
+        {% if job.user.jobs.live.count %}
+        <div class="related">
+          <h4>All jobs at {{ job.user.profile.name }}</h4>
+          <ul>
+            {% for x in job.user.jobs.live %}
+              <li><a href="{{ x.get_absolute_url }}">{{ x.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+
+        {% if request.user.is_staff and job.state.name == "LIVE" %}
+          <div class="related">
+            <h4>Admin</h4>
+            <p>
+              <a href="{% url "admin:remove" job.slug %}" class="btn btn-danger btn-block btn-sm">Remove</a>
+            </p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

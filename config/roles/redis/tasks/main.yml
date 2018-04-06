@@ -1,0 +1,11 @@
+---
+- name: pkg
+  apt:
+    pkg=redis-server
+    default_release={{ debian_release }}-backports
+
+- name: backupninja
+  template:
+    src=backupninja
+    dest=/etc/backup.d/50_redis.sh
+    mode=0640

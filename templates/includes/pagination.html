@@ -1,0 +1,21 @@
+{% if page.paginator.num_pages > 1 %}
+<nav>
+  <ul class="pagination">
+    {% if page.has_previous %}
+    <li class="page-item"><a class="page-link" href="?{% querystring "page" page.previous_page_number %}">Previous</a></li>
+    {% else %}
+    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+    {% endif %}
+    {% if page.paginator.num_pages < 10 %}
+      {% for number in page.paginator.page_range %}
+      <li class="page-item {% if number == page.number %}active{% endif %}"><a class="page-link" href="?{% querystring "page" number %}">{{ number }}</a></li>
+      {% endfor %}
+    {% endif %}
+    {% if page.has_next %}
+    <li class="page-item"><a class="page-link" href="?{% querystring "page" page.next_page_number %}">Next</a></li>
+    {% else %}
+    <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}

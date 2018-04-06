@@ -1,0 +1,24 @@
+---
+- name: setup
+  hosts: all
+  roles:
+    - environment
+    - apt
+    - backupninja
+    - hostname
+    - locale
+    - timezone
+    - mailx
+    - molly-guard
+    - firewall
+
+    - exim
+    - memcached
+    - redis
+    - postgresql
+    - nginx
+
+- name: deploy
+  hosts: all
+  roles:
+    - freenodejobs

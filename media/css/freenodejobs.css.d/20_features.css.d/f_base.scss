@@ -1,0 +1,32 @@
+.f_base {
+  header {
+    margin-top: 12px;
+    margin-bottom: 40px;
+
+    .warning {
+      color: white;
+      padding: 8px;
+      margin-top: 18px;
+      background-color: #7f26a8;
+    }
+  }
+
+  .alerts {
+    margin-top: -30px;
+  }
+
+  section{
+    .detail {
+      h3 {
+        font-size: 1.2rem;
+      }
+      ul, ol {
+        li {
+          color: #666;
+          font-size: 0.9rem;
+          margin-bottom: 0.4rem;
+        }
+      }
+    }
+  }
+}

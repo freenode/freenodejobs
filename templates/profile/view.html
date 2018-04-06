@@ -1,0 +1,150 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}{% if profile %}My profile{% else %}Create profile {% endif %} &mdash; {{ block.super }}{% endblock %}
+{% block subtitle %}{% if profile %}My profile{% else %}Create profile {% endif %}{% endblock %}
+
+{% block container %}
+
+{% if not profile %}
+<p>
+  Before you can create job, you must setup your organisation's profile.
+</p>
+{% endif %}
+
+{% if form.non_field_errors %}
+<div class="alert alert-danger mb-5">
+  <h4 class="alert-heading">
+    Validation error
+  </h4>
+  <hr>
+  {% for x in form.non_field_errors %}
+    <p class="mb-1">{{ x }}</p>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if form.non_field_errors %}
+<div class="alert alert-danger mb-5">
+  <h4 class="alert-heading">
+    Validation error
+  </h4>
+  <hr>
+  {% for x in form.non_field_errors %}
+    <p class="mb-1">{{ x }}</p>
+  {% endfor %}
+</div>
+{% endif %}
+
+<form
+  method="POST"
+  class=""
+  action=""
+  {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
+>
+  {% csrf_token %}
+
+  <div class="form-group col-md-12">
+    <label class="col-form-label" for="{{ form.name.id_for_label }}">
+      Name
+    </label>
+    <input
+      id="{{ form.name.id_for_label }}"
+      type="text"
+      class="form-control {% if form.errors %}{% if form.errors.name %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+      name="{{ form.name.html_name }}"
+      value="{{ form.name.value|default:"" }}"
+      maxlength="{{ form.name.field.max_length|default:"" }}"
+      placeholder=""
+      {% if form.name.field.required %}required{% endif %}
+    >
+    {% for x in form.errors.name %}
+      <div class="invalid-feedback">{{ x }}</div>
+    {% empty %}
+      <small class="form-text text-muted">
+        Enter your company or organisation name.
+      </small>
+    {% endfor %}
+  </div>
+
+  <div class="form-group col-md-12">
+    <label class="col-form-label" for="{{ form.url.id_for_label }}">
+      URL
+    </label>
+    <input
+      id="{{ form.url.id_for_label }}"
+      type="url"
+      class="form-control {% if form.errors %}{% if form.errors.url %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+      name="{{ form.url.html_name }}"
+      value="{{ form.url.value|default:"" }}"
+      maxlength="{{ form.url.field.max_length|default:"" }}"
+      placeholder=""
+      {% if form.url.field.required %}required{% endif %}
+    >
+    {% for x in form.errors.url %}
+      <div class="invalid-feedback">{{ x }}</div>
+    {% empty %}
+      <small class="form-text text-muted">
+        Enter the URL of your organisation.
+      </small>
+    {% endfor %}
+  </div>
+
+  <div class="row">
+    <div class="col-9">
+      <div class="form-group col-md-12">
+        <label class="col-form-label" for="{{ form.image.id_for_label }}">
+          Image
+        </label>
+        <input
+          id="{{ form.image.id_for_label }}"
+          type="file"
+          class="form-control {% if form.errors %}{% if form.errors.image %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+          name="{{ form.image.html_name }}"
+          value="{{ form.image.value|default:"" }}"
+          maxlength="{{ form.image.field.max_length|default:"" }}"
+          placeholder=""
+          {% if form.image.field.required %}required{% endif %}
+        >
+        {% for x in form.errors.image %}
+          <div class="invalid-feedback">{{ x }}</div>
+        {% empty %}
+          <small class="form-text text-muted">
+            Please upload a high-resolution image for your organisation.
+          </small>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-3">
+    {% if profile.image.exists %}
+      <a href="{{ profile.image.original.url }}">
+        <img src="{{ profile.image.resized.url }}" class="img-fluid">
+      </a>
+    {% endif %}
+    </div>
+  </div>
+
+  {% if request.user.jobs.live %}
+  <div class="alert alert-warning mt-5">
+    <h4 class="alert-heading">
+      You currently have live jobs
+    </h4>
+    <hr>
+    Modifying your profile will re-submit your jobs for approval.
+
+    <p class="mt-3">
+      <button type="submit" class="btn btn-primary">Update profile</button>
+    </p>
+  </div>
+  {% else %}
+    <button type="submit" class="btn btn-primary my-3">
+      {% if profile %}
+        Update profile
+      {% else %}
+        Create profile
+      {% endif %}
+    </button>
+  {% endif %}
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "base/generic_base.html" %}
+
+{% block body_classes %}{{ block.super }} f_static_landing{% endblock %}
+
+{% block title %}Freenode jobs{% endblock %}
+
+{% block body %}
+
+<header>
+  <div id="particles-js"></div>
+
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="{% url "static:landing" %}">Freenode Jobs</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        </ul>
+
+        <ul class="navbar-nav my-2 my-lg-0">
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link login" href="{% url "dashboard:view" %}">Dashboard</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link login" href="{% url "jobs:add-edit:add" %}">Post a job</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="head">
+    <div class="container">
+
+      <div class="row mb-5">
+        <div class="col-md-12">
+          <h1>Freenode Jobs</h1>
+          <h2>Find jobs that support free and open source communities.</h2>
+        </div>
+      </div>
+
+      <form method="GET" action="{% url "jobs:view" %}">
+        <div class="row justify-content-center search mt-5">
+          <div class="col-md-4">
+            <div class="form-group">
+              <input type="text" class="form-control" name="q" placeholder="Keyword">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-default btn-block">Search</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="row mt-3">
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="{% url "jobs:view" %}"><i class="fa fa-list fa-2x"></i>
+              </h5>
+              <h5 class="card-title mb-4">
+                <a href="{% url "jobs:view" %}">All jobs</a>
+              </h5>
+              <a href="{% url "jobs:view" %}" class="btn btn-primary">View</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="{% url "jobs:full-time" %}"><i class="fa fa-briefcase fa-2x"></i>
+              </h5>
+              <h5 class="card-title mb-4">
+                <a href="{% url "jobs:full-time" %}">Full-time jobs</a>
+              </h5>
+              </a>
+              <a href="{% url "jobs:full-time" %}" class="btn btn-primary">View</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="{% url "jobs:part-time" %}"><i class="fa fa-calendar fa-2x"></i>
+              </h5>
+              <h5 class="card-title mb-4">
+                <a href="{% url "jobs:part-time" %}">Part-time jobs</a>
+              </h5>
+              <a href="{% url "jobs:part-time" %}" class="btn btn-primary">View</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="{% url "jobs:contract" %}"><i class="fa fa-file-text fa-2x"></i>
+              </h5>
+              <h5 class="card-title mb-4">
+                <a href="{% url "jobs:contract" %}">Contract jobs</a>
+              </h5>
+              <a href="{% url "jobs:contract" %}" class="btn btn-primary">View</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% include "includes/footer.html" %}
+
+{% endblock %}

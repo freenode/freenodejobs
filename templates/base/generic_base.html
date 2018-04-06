@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>{% block title %}Freenode Jobs{% endblock %}</title>
+
+  <link rel="stylesheet" href="{% static "css/freenodejobs.css" %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mandeli|Varela+Round">
+
+  <link rel="icon" href="{% static "img/f_generic_base/favicon.png" %}" type="image/x-icon">
+  <link rel="shortcut icon" href="{% static "img/f_generic_base/favicon.png" %}" type="image/x-icon">
+
+  <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    {% block extrahead %}{% endblock %}
+  </head>
+
+  <body class="{% block body_classes %}f_generic_base{% endblock %}">
+    {% block messages %}
+    {% include "includes/messages.html" %}
+    {% endblock %}
+
+    {% block body %}{% endblock %}
+
+    {% block script %}
+    <script src="{% static "js/freenodejobs.js" %}"></script>
+    {% endblock %}
+  </body>
+</html>

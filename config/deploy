@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -eu
+
+export SOURCE="$(dpkg-parsechangelog --show-field Source)"
+export ANSIBLE_CONFIG="config/ansible.cfg"
+
+chmod 600 config/id_rsa
+pip install ansible==2.4.1.0
+install -v -D -m644 ../${SOURCE}_*.deb config/roles/${SOURCE}/files/${SOURCE}.deb
+
+exec ansible-playbook --verbose "${@}" config/playbook.yml

@@ -1,0 +1,92 @@
+{% extends "dashboard/base.html" %}
+
+{% block body_classes %}{{ block.super }} f_dashboard_view{% endblock %}
+
+{% block title %}Jobs dashboard &mdash; {{ block.super }}{% endblock %}
+{% block subtitle %}Jobs dashboard{% endblock %}
+
+{% block container %}
+
+<div class="clearfix mb-4">
+  <a class="btn btn-primary pull-right" href="{% url "jobs:add-edit:add" %}">Post a new job</a>
+</div>
+
+<div class="card dashboard-employer manage">
+  <h4 class="card-header">My jobs ({{ page.paginator.count }})</h4>
+  <div class="card-body" id="tb-manage">
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Updated</th>
+          <th>State</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for job in page.object_list %}
+        <tr>
+          <td data-title="Title">
+            {{ job.title }}
+          </td>
+          <td data-title="Job type">
+            {{ job.job_type.label }}
+          </td>
+          <td data-title="Job type">
+            {{ job.updated|date:"M d, Y" }}
+          </td>
+          <td data-title="State">
+            {{ job.state.label }}
+          </td>
+          {% switch job.state.name %}
+          {% case "NEW" "WAITING_FOR_APPROVAL" %}
+          <td data-title="">
+            <a href="{{ job.get_absolute_url }}" class="btn btn-default">Preview</a>
+          </td>
+          <td data-title="">
+            <a class="btn btn-link btn-sm" href="{% url "jobs:add-edit:edit" job.slug %}">
+              <i class="fa fa-pencil"></i> Edit
+            </a>
+            <a class="btn btn-link btn-sm" href="{% url "jobs:add-edit:remove" job.slug %}">
+              <i class="fa fa-times"></i> Remove
+            </a>
+          </td>
+          {% endcase %}
+          {% case "LIVE" %}
+          <td data-title="">
+            <a href="{{ job.get_absolute_url }}" class="btn btn-default">View</a>
+          </td>
+          <td data-title="">
+            <a class="btn btn-link btn-sm" href="{% url "jobs:add-edit:edit" job.slug %}">
+              <i class="fa fa-pencil"></i> Edit
+            </a>
+            <br>
+            <a class="btn btn-link btn-sm" href="{% url "jobs:add-edit:remove" job.slug %}">
+              <i class="fa fa-times"></i> Remove
+            </a>
+          </div>
+          {% endcase %}
+          {% case "REMOVED" %}
+            <td data-title=""></td>
+            <td data-title=""></td>
+          {% endcase %}
+          {% endswitch %}
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4">
+            You have no jobs.
+            <a href="{% url "jobs:add-edit:add" %}">Create a job</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% include "includes/pagination.html" %}
+
+{% endblock %}

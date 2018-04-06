@@ -1,0 +1,50 @@
+#!/bin/sh
+
+set -eu
+
+HOST="${1}"
+DOMAIN="$(awk '$1 == "canonical_domain_name:" { print $2 }' config/host_vars/${HOST})"
+
+if [ "${2:-}" = "--force" ]
+then
+	FORCE="true"
+else
+	FORCE="false"
+fi
+
+DIR="/etc/letsencrypt/live/${DOMAIN}"
+IDENTITY_FILE="config/id_rsa"
+
+chmod 600 "${IDENTITY_FILE}"
+
+Ssh () {
+	ssh \
+		-o StrictHostKeyChecking=no \
+		-o UserKnownHostsFile=/dev/null \
+		-i "${IDENTITY_FILE}" \
+		-l root \
+		-t \
+		"${HOST}" -- "${@}"
+}
+
+Ssh 'cat > /tmp/certbot.sh' <<EOF
+apt-get install certbot -t stretch-backports --no-install-recommends --yes
+systemctl stop nginx
+if [ -d "${DIR}" ] && [ "${FORCE}" = "false" ]
+then
+	echo "I: Renewing"
+	certbot renew --force-renew
+else
+	echo "I: Creating"
+	certbot certonly --standalone -m \$(awk '\$1 == "root:" { print \$2 }' /etc/aliases) --agree-tos -d ${DOMAIN}
+fi
+systemctl start nginx || true
+EOF
+
+Ssh sudo sh /tmp/certbot.sh
+for X in fullchain.pem privkey.pem
+do
+	Ssh sudo cat "${DIR}/${X}" > config/roles/nginx/files/${X}
+done
+
+Ssh rm -f /tmp/certbot.sh

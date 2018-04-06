@@ -1,0 +1,92 @@
+{% extends "base/base.html" %}
+
+{% block title %}Register &mdash; {{ block.super }}{% endblock %}
+{% block subtitle %}Register for an account{% endblock %}
+
+{% block container %}
+
+{{ form.errors }}
+
+{% if form.non_field_errors %}
+<div class="alert alert-danger mb-5">
+  <h4 class="alert-heading">
+    Regisration error
+  </h4>
+  <hr>
+  {% for x in form.non_field_errors %}
+    <p class="mb-1">{{ x }}</p>
+  {% endfor %}
+</div>
+{% endif %}
+
+<form
+  method="POST"
+  class=""
+  action=""
+  {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
+>
+  {% csrf_token %}
+
+  <div class="form-group">
+    <label class="col-form-label" for="{{ form.email.id_for_label }}">
+      Email address
+    </label>
+    <input
+      id="{{ form.email.id_for_label }}"
+      type="email"
+      class="form-control {% if form.errors %}{% if form.errors.email %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+      name="{{ form.email.html_name }}"
+      value="{{ form.email.value|default:"" }}"
+      maxlength="{{ form.email.field.max_length|default:"" }}"
+      placeholder="eg. you@domain.com"
+      {% if form.email.field.required %}required{% endif %}
+    >
+    {% for x in form.errors.email %}
+      <div class="invalid-feedback">{{ x }}</div>
+    {% endfor %}
+  </div>
+
+  <div class="form-group">
+    <label class="col-form-label" for="{{ form.password1.id_for_label }}">
+      Password
+    </label>
+    <input
+      id="{{ form.password1.id_for_label }}"
+      type="password"
+      class="form-control {% if form.errors %}{% if form.errors.password1 %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+      name="{{ form.password1.html_name }}"
+      value="{{ form.password1.value|default:"" }}"
+      maxlength="{{ form.password1.field.max_length|default:"" }}"
+      placeholder=""
+      {% if form.password1.field.required %}required{% endif %}
+    >
+    {% for x in form.errors.password1 %}
+      <div class="invalid-feedback">{{ x }}</div>
+    {% endfor %}
+  </div>
+
+  <div class="form-group">
+    <label class="col-form-label" for="{{ form.password2.id_for_label }}">
+      Password (confirm)
+    </label>
+    <input
+      id="{{ form.password2.id_for_label }}"
+      type="password"
+      class="form-control {% if form.errors %}{% if form.errors.password2 %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+      name="{{ form.password2.html_name }}"
+      value="{{ form.password2.value|default:"" }}"
+      maxlength="{{ form.password2.field.max_length|default:"" }}"
+      placeholder=""
+      {% if form.password2.field.required %}required{% endif %}
+    >
+    {% for x in form.errors.password2 %}
+      <div class="invalid-feedback">{{ x }}</div>
+    {% endfor %}
+  </div>
+
+  <button type="submit" class="btn btn-primary my-3">
+    Register
+  </button>
+</form>
+
+{% endblock %}

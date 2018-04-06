@@ -1,0 +1,57 @@
+{% extends "base/base.html" %}
+
+{% block title %}Reject job? &mdash; {{ block.super }}{% endblock %}
+{% block subtitle %}Reject this job?{% endblock %}
+
+{% block container %}
+
+<p>
+  Are you sure you want to reject this job?
+</p>
+
+{% if form.non_field_errors %}
+<div class="alert alert-danger mb-5">
+  <h4 class="alert-heading">
+    Validation error
+  </h4>
+  <hr>
+  {% for x in form.non_field_errors %}
+    <p class="mb-1">{{ x }}</p>
+  {% endfor %}
+</div>
+{% endif %}
+
+<form
+  method="POST"
+  class=""
+  action=""
+  {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
+>
+  {% csrf_token %}
+
+  <div class="form-group col-md-12">
+    <label class="col-form-label" for="{{ form.reason.id_for_label }}">
+      Reason
+    </label>
+    <textarea
+      id="{{ form.reason.id_for_label }}"
+      rows="5"
+      class="form-control {% if form.errors %}{% if form.errors.reason %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+      name="{{ form.reason.html_name }}"
+      {% if form.reason.field.required %}required{% endif %}
+      placeholder="Please enter a reason for this rejection."
+    >{{ form.reason.value|default:"" }}</textarea>
+    {% for x in form.errors.reason %}
+      <div class="invalid-feedback">{{ x }}</div>
+    {% endfor %}
+  </div>
+
+  <button type="submit" class="btn btn-primary my-3">
+    Reject
+  </button>
+  <a href="{{ job.get_absolute_url }}" class="btn btn-outline-primary my-3">
+    Cancel
+  </a>
+</form>
+
+{% endblock %}

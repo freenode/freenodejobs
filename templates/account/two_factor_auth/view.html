@@ -1,0 +1,39 @@
+{% extends "base/base.html" %}
+
+{% block container %}
+
+{% block title %}Two-factor authentication &mdash; {{ block.super }}{% endblock %}
+{% block subtitle %}Two-factor authentication{% endblock %}
+
+{% if default_device %}
+  <p>
+    Two-factor authentication is enabled for your account.
+  </p>
+
+
+  <form method="POST" action="{% url "account:two-factor-auth:disable" %}">
+    {% csrf_token %}
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+    >
+      Disable two-factor authentication
+    </button>
+{% else %}
+  <p>
+    Two-factor authentication is not enabled for your account. Please enable
+    two-factor authentication for enhanced account security.
+  </p>
+
+  <p>
+    <a
+      href="{% url "account:two-factor-auth:setup" %}"
+      class="btn btn-primary"
+    >
+      Enable two-factor authentication
+    </a>
+  </p>
+{% endif %}
+
+{% endblock %}

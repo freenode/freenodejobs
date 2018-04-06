@@ -1,0 +1,24 @@
+---
+- name: pkg
+  action: apt
+    pkg={{ item }}
+  with_items:
+    - backupninja
+    - hwinfo
+    - s3cmd
+    - rsync
+
+- name: backupninja.conf
+  template:
+    src=backupninja.conf
+    dest=/etc/backupninja.conf
+    mode=0644
+
+- name: /etc/backup.d
+  action: template
+    src=backup.d/{{ item }}
+    dest=/etc/backup.d/{{ item }}
+    mode=0640
+  with_items:
+    - 10.sys
+    - 90_s3.sh

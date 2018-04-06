@@ -1,0 +1,20 @@
+{% extends email_from_template %}
+
+{% block subject %}
+A job was just submitted for approval
+{% endblock %}
+
+{% block body %}
+Hi,
+
+A job was submitted for approval. Please check over the content before it
+goes live:
+
+  {{ settings.SITE_URL }}{% url "admin:view" %}
+
+
+Regards,
+
+-- 
+Freenode Jobs
+{% endblock %}

@@ -1,0 +1,16 @@
+*.pyc
+pep8.txt
+coverage.xml
+/static/
+/freenodejobs/settings/custom.py
+/storage/
+.coverage
+*.deb
+/config/playbook.retry
+/debian/files
+/debian/*.log
+/debian/*.debhelper
+/debian/*.substvars
+/debian/.debhelper/
+/debian/freenodejobs/
+/.env

@@ -1,0 +1,23 @@
+{% extends email_from_template %}
+
+{% block subject %}
+Your job on Freenode Jobs was removed
+{% endblock %}
+
+{% block body %}
+Hi,
+
+Your job on Freenode Jobs was removed:
+
+{{ reason|safe }}
+
+You can view all your on your jobs on your dashboard here:
+
+  {{ settings.SITE_URL }}{% url "dashboard:view" %}
+
+
+Regards,
+
+-- 
+Freenode Jobs
+{% endblock %}

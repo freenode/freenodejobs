@@ -1,0 +1,23 @@
+{% extends email_from_template %}
+
+{% block subject %}
+Your job on Freenode Jobs was rejected
+{% endblock %}
+
+{% block body %}
+Hi,
+
+Unfortunately, your job on Freenode Jobs was not approved:
+
+{{ reason|safe }}
+
+After you modify, you can resubmit it here:
+
+  {{ settings.SITE_URL }}{% url "job:add-edit:edit" job.slug }}
+
+
+Regards,
+
+-- 
+Freenode Jobs
+{% endblock %}

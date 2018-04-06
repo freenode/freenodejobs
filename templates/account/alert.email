@@ -1,0 +1,20 @@
+{% extends email_from_template %}
+
+{% block subject %}
+Multiple failed login attempts {{ prefix }} {{ val }}
+{% endblock %}
+
+{% block body %}
+Hi,
+
+The Freenode Jobs site has detected {{ num }} failed login attempt{{ num|pluralize }}
+{{ prefix }} '{{ val }}' in the past {{ minutes }} minute{{ minutes|pluralize }}.
+
+(Alerts will now be silenced for {{ minutes }} minute{{ minutes|pluralize }}.)
+
+
+Regards,
+
+-- 
+Freenode Jobs
+{% endblock %}

@@ -1,0 +1,11 @@
+[run]
+branch = True
+source = freenodejobs
+omit =
+    */migrations/*
+    freenodejobs/manage.py
+    freenodejobs/wsgi.py
+    freenodejobs/settings/*
+
+[report]
+show_missing = true

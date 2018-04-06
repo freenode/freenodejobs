@@ -1,0 +1,22 @@
+#!/usr/bin/make -f
+
+DH_PIP_EXTRA_ARGS = --pre
+
+%:
+	dh $@ --with=python-virtualenv,systemd
+
+override_dh_virtualenv:
+	dh_virtualenv --python=python3.5
+	find -type d \( -name '__pycache__' -or -name '*.dist-info' \) -print0 | xargs -0r rm -rf
+	find -type f \( -name '*.mo' -or -name '*.po' \) -delete
+	find -type d -empty -delete
+
+override_dh_systemd_start:
+	dh_systemd_start --no-start
+
+override_dh_systemd_enable:
+	dh_systemd_enable --name freenodejobs-gunicorn
+
+override_dh_strip:
+override_dh_shlibdeps:
+override_dh_strip_nondeterminism:
