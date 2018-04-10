@@ -5,9 +5,9 @@ from . import views
 app_name = 'account'
 
 urlpatterns = (
-    path(r'', include('freenodejobs.account.account_reset_password.urls',
+    path('', include('freenodejobs.account.account_reset_password.urls',
          namespace='reset-password')),
-    path(r'', include('freenodejobs.account.account_two_factor_auth.urls',
+    path('', include('freenodejobs.account.account_two_factor_auth.urls',
          namespace='two-factor-auth')),
 
     path('login', views.LoginView.as_view(),

@@ -4,19 +4,19 @@ from django.views.static import serve
 
 
 urlpatterns = (
-    path(r'', include('freenodejobs.account.urls',
+    path('', include('freenodejobs.account.urls',
          namespace='account')),
-    path(r'', include('freenodejobs.admin.urls',
+    path('', include('freenodejobs.admin.urls',
          namespace='admin')),
-    path(r'', include('freenodejobs.dashboard.urls',
+    path('', include('freenodejobs.dashboard.urls',
          namespace='dashboard')),
-    path(r'', include('freenodejobs.profile.urls',
+    path('', include('freenodejobs.profile.urls',
          namespace='profile')),
-    path(r'', include('freenodejobs.registration.urls',
+    path('', include('freenodejobs.registration.urls',
          namespace='registration')),
-    path(r'', include('freenodejobs.static.urls',
+    path('', include('freenodejobs.static.urls',
          namespace='static')),
-    path(r'', include('freenodejobs.jobs.urls',
+    path('', include('freenodejobs.jobs.urls',
          namespace='jobs')),
 
     path('storage/<path:path>', serve, {
