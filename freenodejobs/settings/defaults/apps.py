@@ -24,6 +24,7 @@ INSTALLED_APPS = (
     'freenodejobs.jobs',
     'freenodejobs.jobs.jobs_add_edit',
     'freenodejobs.jobs.jobs_state_history',
+    'freenodejobs.jobs.jobs_tags',
     'freenodejobs.profile',
     'freenodejobs.registration',
     'freenodejobs.static',
