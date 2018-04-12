@@ -65,15 +65,29 @@ class TestCase(TestCase):
         return response
 
     def assertGET(self, status_code, *args, **kwargs):
+        client_kwargs = {}
+        if kwargs.pop('is_ajax', False):
+            client_kwargs = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
+
         return self.assertStatusCode(
-            status_code, self.client.get, *args, **kwargs
+            status_code,
+            lambda x: self.client.get(x, **client_kwargs),
+            *args,
+            **kwargs
         )
 
     def assertPOST(self, data, *args, **kwargs):
         status_code = kwargs.pop('status_code', 302)
 
+        client_kwargs = {}
+        if kwargs.pop('is_ajax', False):
+            client_kwargs = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
+
         return self.assertStatusCode(
-            status_code, lambda x: self.client.post(x, data), *args, **kwargs
+            status_code,
+            lambda x: self.client.post(x, data, **client_kwargs),
+            *args,
+            **kwargs
         )
 
     def assertRedirectsToUrl(self, response, urlconf, *args, **kwargs):

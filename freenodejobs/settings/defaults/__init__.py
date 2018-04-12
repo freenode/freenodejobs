@@ -176,3 +176,6 @@ LOGGING['loggers']['freenodejobs'] = {
 GEOIP_PATH = os.path.join(BASE_DIR, 'data')
 
 AUTH_USER_MODEL = 'account.User'
+
+IS_TEST = False
+XHR_SIMULATED_DELAY = 0.0
