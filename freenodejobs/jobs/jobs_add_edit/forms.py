@@ -27,7 +27,7 @@ class AddEditForm(forms.ModelForm):
         instance.user = user
         instance.save()
 
-        if instance.state == StateEnum.LIVE:
+        if instance.state == StateEnum.LIVE and self.changed_data:
             txt = "Edited whilst live."
             instance.set_state(StateEnum.WAITING_FOR_APPROVAL, user, txt)
             instance.save()
