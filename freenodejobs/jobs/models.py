@@ -37,6 +37,13 @@ class Job(models.Model):
     apply_url = models.URLField()
     description = models.TextField()
 
+    tags = models.ManyToManyField(
+        'jobs_tags.Tag',
+        blank=True,
+        through='jobs_tags.JobTag',
+        through_fields=('job', 'tag'),
+    )
+
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now)
 
