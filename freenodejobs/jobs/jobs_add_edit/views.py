@@ -1,11 +1,14 @@
+from django.http import HttpResponseBadRequest
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 
+from freenodejobs.utils.decorators import ajax
+
 from ..enums import StateEnum
 
-from .forms import AddEditForm, RemoveForm, SubmitForApprovalForm
+from .forms import AddEditForm, RemoveForm, SubmitForApprovalForm, AddTagForm
 
 
 @login_required
@@ -68,3 +71,19 @@ def submit_for_approval(request, slug):
     messages.success(request, "Your job has been submitted for approval.")
 
     return redirect('dashboard:view')
+
+
+@ajax()
+@require_POST
+@login_required
+def xhr_add_tag(request):
+    form = AddTagForm(request.POST)
+
+    if not form.is_valid():
+        return HttpResponseBadRequest()
+
+    tag = form.save(request.user)
+
+    return render(request, 'jobs/add_edit/xhr_add_tag.html', {
+        'tag': tag,
+    })

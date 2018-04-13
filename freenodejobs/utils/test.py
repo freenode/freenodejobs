@@ -10,6 +10,7 @@ from django.contrib.auth import get_user_model
 from freenodejobs.jobs.enums import StateEnum, JobTypeEnum
 
 from freenodejobs.profile.models import Profile
+from freenodejobs.jobs.jobs_tags.models import Tag
 
 UserModel = get_user_model()
 
@@ -39,6 +40,14 @@ class TestCase(TestCase):
             state=StateEnum.LIVE,
             job_type=JobTypeEnum.FULL_TIME,
         )
+
+        self.tag = Tag.objects.create(
+            title="Tag name",
+            slug='tag-name',
+            user=self.user,
+        )
+
+        self.job.job_tags.create(tag=self.tag, user=self.user)
 
     def tearDown(self):
         shutil.rmtree(settings.MEDIA_ROOT, ignore_errors=True)

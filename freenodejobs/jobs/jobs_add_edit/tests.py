@@ -2,6 +2,8 @@ from freenodejobs.utils.test import TestCase
 
 from freenodejobs.jobs.enums import JobTypeEnum, StateEnum
 
+from ..jobs_tags.models import Tag
+
 
 class NoProfileTests(TestCase):
     def setUp(self):
@@ -147,4 +149,62 @@ class SubmitForApprovalTests(TestCase):
 
         self.assertPOST(
             {}, 'jobs:add-edit:remove', self.job.slug, status_code=404,
+        )
+
+
+class XHRAddTagTests(TestCase):
+    def test_success(self):
+        self.assertEqual(Tag.objects.count(), 1)
+        self.assertPOST(
+            {'title': "New tag"},
+            'jobs:add-edit:xhr-add-tag',
+            is_ajax=True,
+            status_code=200,
+        )
+
+        tag = Tag.objects.latest()
+
+        self.assertEqual(Tag.objects.count(), 2)
+        self.assertEqual(tag.title, "New tag")
+        self.assertEqual(tag.slug, 'new-tag')
+
+    def test_case_insensitive(self):
+        self.assertEqual(Tag.objects.count(), 1)
+        self.assertPOST(
+            {'title': self.tag.title.upper()},
+            'jobs:add-edit:xhr-add-tag',
+            is_ajax=True,
+            status_code=200,
+        )
+        self.assertEqual(Tag.objects.count(), 1)
+
+    def test_slug_clash(self):
+        self.assertEqual(Tag.objects.count(), 1)
+        self.assertPOST(
+            {'title': self.tag.title.replace(' ', '-')},
+            'jobs:add-edit:xhr-add-tag',
+            is_ajax=True,
+            status_code=200,
+        )
+
+        tag = Tag.objects.latest()
+
+        self.assertEqual(Tag.objects.count(), 2)
+        self.assertEqual(tag.title, "Tag-name")
+        self.assertEqual(tag.slug, 'tag-name-1')
+
+    def test_missing(self):
+        self.assertPOST(
+            {},
+            'jobs:add-edit:xhr-add-tag',
+            is_ajax=True,
+            status_code=400,
+        )
+
+    def test_empty(self):
+        self.assertPOST(
+            {'title': ''},
+            'jobs:add-edit:xhr-add-tag',
+            is_ajax=True,
+            status_code=400,
         )

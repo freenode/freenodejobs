@@ -1,5 +1,7 @@
 {% extends "base/base.html" %}
 
+{% block body_classes %}{{ block.super }} f_jobs_add_edit{% endblock %}
+
 {% block title %}{% if job %}Editing job{% else %}Add job {% endif %} &mdash; {{ block.super }}{% endblock %}
 {% block subtitle %}{% if job %}Editing job{% else %}Add job {% endif %}{% endblock %}
 
@@ -174,6 +176,11 @@
     {% for x in form.errors.tags %}
       <div class="invalid-feedback">{{ x }}</div>
     {% endfor %}
+
+    <div class="form-row">
+      <input type="text" class="form-control form-control-sm col-3 js-add-tags-value" placeholder="Add new tag&hellip;" value="">
+      <button type="button" class="btn btn-outline-secondary btn-sm js-add-tags-btn">Add</button>
+    </div>
   </div>
 
   <button type="submit" class="btn btn-primary my-3">

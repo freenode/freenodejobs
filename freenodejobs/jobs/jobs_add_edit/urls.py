@@ -14,4 +14,7 @@ urlpatterns = (
     path('dashboard/jobs/<slug:slug>/submit-for-approval',
          views.submit_for_approval,
          name='submit-for-approval'),
+
+    path('xhr/dashboard/jobs/add-tag', views.xhr_add_tag,
+         name='xhr-add-tag'),
 )

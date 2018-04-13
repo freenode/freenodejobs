@@ -1,4 +1,7 @@
+import itertools
+
 from django import forms
+from django.utils.text import slugify
 
 from freenodejobs.jobs.enums import StateEnum
 
@@ -89,3 +92,25 @@ class RemoveForm(forms.Form):
         self.job.save()
 
         return self.job
+
+
+class AddTagForm(forms.Form):
+    title = forms.CharField(max_length=255)
+
+    def save(self, user):
+        title = self.cleaned_data['title']
+
+        # Return the canonical version of this Tag, ignoring casing.
+        try:
+            return Tag.objects.get(title__iexact=title)
+        except Tag.DoesNotExist:
+            pass
+
+        # Ensure we have a unique slug
+        slug = slugify(title)
+        for x in itertools.count(1):
+            if not Tag.objects.filter(slug=slug).exists():
+                break
+            slug = '{}-{}'.format(slugify(title), x)
+
+        return Tag.objects.create(slug=slug, user=user, title=title)
