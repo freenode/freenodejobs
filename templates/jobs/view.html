@@ -68,7 +68,10 @@
           <p>
             {% include "includes/job_type.html" %}
             <a href="{{ job.get_absolute_url }}">{{ job.user.profile.name }}</a>
-            <i class="fa fa-map-marker"></i> {{ job.location }}
+            <i class="fa fa-map-marker"></i> <span class="mr-2">{{ job.location }}</span>
+            {% for x in job.tags.all %}
+              <span class="badge badge-secondary" style="color: white;">{{ x.title }}</span>
+            {% endfor %}
             <span>{{ job.description|markdown|truncatewords_html:10 }}</span>
           </p>
           <div class="clearfix"></div>
