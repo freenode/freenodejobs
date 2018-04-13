@@ -70,6 +70,7 @@ class FilterForm(forms.ModelForm):
                 'title',
                 'location',
                 'description',
+                'tags__title',
                 'user__profile__name',
             ):
                 q |= Q(**{'{}__icontains'.format(x): self.cleaned_data['q']})
