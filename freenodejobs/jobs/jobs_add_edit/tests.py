@@ -27,6 +27,7 @@ class AddTests(TestCase):
         self.assertEqual(self.user.jobs.count(), 1)
 
         self.assertPOST({
+            'tags': [self.tag.pk],
             'title': "Job title",
             'location': "Job location",
             'description': "Job description",
@@ -54,10 +55,12 @@ class EditTests(TestCase):
         self.assertGET(404, 'jobs:add-edit:edit', self.job.slug)
 
     def test_POST(self):
+        self.assertTrue(self.job.tags.exists())
         self.assertEqual(self.job.state, StateEnum.LIVE)
 
         with self.assertSendsMail():
             self.assertPOST({
+                'tags': [],
                 'title': "New job title",
                 'location': "New job location",
                 'description': "New job description",
@@ -66,6 +69,7 @@ class EditTests(TestCase):
             }, 'jobs:add-edit:edit', self.job.slug)
 
         self.job.refresh_from_db()
+        self.failIf(self.job.tags.exists())
         self.assertEqual(self.job.title, "New job title")
         self.assertEqual(self.job.state, StateEnum.WAITING_FOR_APPROVAL)
 

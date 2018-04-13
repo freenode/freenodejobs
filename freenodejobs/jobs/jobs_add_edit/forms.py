@@ -3,6 +3,7 @@ from django import forms
 from freenodejobs.jobs.enums import StateEnum
 
 from ..models import Job
+from ..jobs_tags.models import Tag
 
 
 class AddEditForm(forms.ModelForm):
@@ -14,10 +15,15 @@ class AddEditForm(forms.ModelForm):
             'location',
             'apply_url',
             'description',
+            'tags',
         )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.fields['tags'].choices = [
+            (x.pk, x.title) for x in Tag.objects.all()
+        ]
 
         # Remove empty label
         self.fields['job_type'].choices.pop(0)
@@ -26,6 +32,15 @@ class AddEditForm(forms.ModelForm):
         instance = super().save(commit=False)
         instance.user = user
         instance.save()
+
+        # Ensure newly-unselected tags are removed
+        for x in instance.job_tags.all():
+            if x.tag not in self.cleaned_data['tags']:
+                x.delete()
+
+        # Ensure selected tags are selected
+        for x in self.cleaned_data['tags']:
+            instance.job_tags.get_or_create(tag=x, defaults={'user': user})
 
         if instance.state == StateEnum.LIVE and self.changed_data:
             txt = "Edited whilst live."

@@ -145,6 +145,37 @@
     {% endfor %}
   </div>
 
+  <div class="form-group col-md-12 js-add-tags" data-url="{% url "jobs:add-edit:xhr-add-tag" %}">
+    <label class="col-form-label mr-3" for="{{ form.tags.id_for_label }}">
+      Tags:
+    </label>
+
+    <div class="js-add-tags-inputs">
+      {% for val, display in form.tags.field.choices %}
+      <div class="form-check form-check-inline" data-tag_id="{{ val }}">
+        <label class="form-check-label">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            name="{{ form.tags.html_name }}"
+            value="{{ val }}"
+            {% if val in form.tags.value  %}checked{% endif %}
+          >
+          {{ display }}
+        </label>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% for x in form.errors.tags %}
+      <div class="invalid-feedback d-block">{{ x }}</div>
+    {% endfor %}
+
+    {% for x in form.errors.tags %}
+      <div class="invalid-feedback">{{ x }}</div>
+    {% endfor %}
+  </div>
+
   <button type="submit" class="btn btn-primary my-3">
     {% if job %}
       Save
