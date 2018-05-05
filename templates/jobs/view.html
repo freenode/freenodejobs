@@ -73,6 +73,7 @@
               <span class="badge badge-secondary" style="color: white;">{{ x.title }}</span>
             {% endfor %}
             <span>{{ job.description|markdown|truncatewords_html:10 }}</span>
+            <span><p>[<a href="{{ job.get_absolute_url }}">&hellip;</a>]</p></span>
           </p>
           <div class="clearfix"></div>
         </div>
