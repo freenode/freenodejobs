@@ -1,4 +1,17 @@
 .f_base {
+  nav.navbar {
+    background-color: #292f2f !important;
+
+    .navbar-brand {
+      color: #ecf7fa;
+      letter-spacing: -1px;
+    }
+
+    a.nav-link {
+      color: #ecf7fa !important;
+    }
+  }
+
   header {
     margin-top: 12px;
     margin-bottom: 40px;
@@ -9,6 +22,11 @@
       margin-top: 18px;
       background-color: #7f26a8;
     }
+  }
+
+  .titlex {
+    margin-top: 72px;
+    background: #3a4346 !important;
   }
 
   .alerts {
@@ -28,5 +46,9 @@
         }
       }
     }
+  }
+
+  footer {
+    background-color: #292f2f !important;
   }
 }

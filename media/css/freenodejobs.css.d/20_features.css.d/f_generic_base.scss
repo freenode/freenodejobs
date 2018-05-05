@@ -1,4 +1,16 @@
 .f_generic_base {
+  nav {
+    .navbar-brand span {
+      color: #4beb4a;
+    }
+  }
+
+  .btn-primary {
+    color: #fff;
+    border-color: #659a49;
+    background-color: #659a49;
+  }
+
   p {
     font-size: 14px;
   }

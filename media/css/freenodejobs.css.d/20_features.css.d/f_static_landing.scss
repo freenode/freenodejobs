@@ -1,10 +1,28 @@
 .f_static_landing {
+  #particles-js {
+    background: #2d3038 !important;
+    background-image: none;
+  }
+
   header {
     margin-bottom: 0;
+
+    .navbar-brand {
+      padding-top: 14px;
+      letter-spacing: -1px;
+    }
 
     .head {
       padding-top: 40px;
       padding-bottom: 0;
+
+      h1 {
+        letter-spacing: 0px;
+
+        span {
+          color: #4beb4a;
+        }
+      }
 
       .card-title a {
         color: black;
