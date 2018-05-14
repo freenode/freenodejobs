@@ -142,7 +142,7 @@ DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 AWS_DEFAULT_ACL = 'private'
 AWS_S3_ENCRYPTION = True
 AWS_QUERYSTRING_EXPIRE = 86400 * 7  # Max of 1 week
-AWS_STORAGE_BUCKET_NAME = 'freenodejobs-data'
+AWS_STORAGE_BUCKET_NAME = 'freenodejobs'
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.{}'.format(x)}

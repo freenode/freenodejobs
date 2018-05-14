@@ -10,11 +10,3 @@
     src=env
     dest={{ base_dir }}/.env
     mode=0644
-
-- name: Create storage dir
-  file:
-    path=/srv/{{ canonical_domain_name }}/storage
-    owner=www-data
-    group=www-data
-    state=directory
-    recurse=yes
