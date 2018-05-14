@@ -1,4 +1,8 @@
+import copy
+
 from os.path import abspath, dirname, join
+
+from django.utils.log import DEFAULT_LOGGING
 
 
 def base_dir(*xs):
@@ -31,3 +35,21 @@ CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 
 REDIS_ENABLED = False
+
+# Log to console
+LOGGING = copy.deepcopy(DEFAULT_LOGGING)
+LOGGING['handlers']['console']['filters'] = []
+
+LOGGING['formatters']['freenodejobs'] = {
+    '()': 'freenodejobs.utils.log.FreenodejobsFormatter',
+}
+LOGGING['handlers']['freenodejobs'] = {
+    'level': 'INFO',
+    'class': 'logging.StreamHandler',
+    'formatter': 'freenodejobs',
+}
+LOGGING['loggers']['freenodejobs'] = {
+    'level': 'INFO',
+    'handlers': ['freenodejobs'],
+    'propagate': False,
+}

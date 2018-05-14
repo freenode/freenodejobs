@@ -31,3 +31,7 @@
 ```
 ./setup.py test
 ```
+
+## Logs
+
+https://eu-west-2.console.aws.amazon.com/cloudwatch/home?region=eu-west-2#logEventViewer:group=freenodejobs;stream=freenodejobs

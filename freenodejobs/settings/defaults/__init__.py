@@ -164,13 +164,13 @@ LOGGING['formatters']['freenodejobs'] = {
 }
 LOGGING['handlers']['freenodejobs'] = {
     'level': 'INFO',
-    'class': 'logging.StreamHandler',
+    'class': 'watchtower.CloudWatchLogHandler',
+    'log_group': 'freenodejobs',
     'formatter': 'freenodejobs',
 }
 LOGGING['loggers']['freenodejobs'] = {
     'level': 'INFO',
     'handlers': ['freenodejobs'],
-    'propagate': False,
 }
 
 GEOIP_PATH = os.path.join(BASE_DIR, 'data')
