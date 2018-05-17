@@ -1,3 +1,3 @@
 ---
 role: live
-canonical_domain_name: freenodejobs.chris-lamb.co.uk
+canonical_domain_name: jobs.freenode.net
