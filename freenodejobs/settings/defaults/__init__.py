@@ -130,7 +130,7 @@ REDIS_ENABLED = True
 KEYERROR_SECRET_KEY = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 KEYERROR_USER_INFO_CALLBACK = 'freenodejobs.utils.debug.get_keyerror_user_info'
 
-DEFAULT_EMAIL = 'admin@jobs.freenode.net'
+DEFAULT_EMAIL = 'christel@freenode.net'
 EMAIL_BACKEND = 'anymail.backends.amazon_ses.EmailBackend'
 DEFAULT_FROM_EMAIL = 'Freenode Jobs <{}>'.format(DEFAULT_EMAIL)
 
