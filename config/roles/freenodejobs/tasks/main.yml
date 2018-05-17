@@ -1,7 +1,7 @@
 ---
 - name: Copy package
   copy:
-    src=freenodejobs.deb
+    src=src.deb
     dest=/tmp/freenodejobs.deb
 
 - name: Stop services to avoid race conditions

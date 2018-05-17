@@ -2,11 +2,27 @@
 
 set -eu
 
-export SOURCE="$(dpkg-parsechangelog --show-field Source)"
+# Sync with .gitignore
+VAULT_FILENAMES="config/group_vars/all config/id_rsa config/roles/nginx/files/privkey.pem"
+
 export ANSIBLE_CONFIG="config/ansible.cfg"
 
-chmod 600 config/id_rsa
-pip install ansible==2.4.1.0
-install -v -D -m644 ../${SOURCE}_*.deb config/roles/${SOURCE}/files/${SOURCE}.deb
+# Decrypt files
+TEMP="$(mktemp -d)"
+trap 'rm -rf "${TEMP}"' EXIT
+echo "${ANSIBLE_VAULT_PASSWORD}" > ${TEMP}/password
+for X in $(echo ${VAULT_FILENAMES})
+do
+	ansible-vault decrypt \
+		--output="${X}" \
+		--vault-password-file="${TEMP}/password" \
+		"${X}.vault"
+done
 
+# ssh requires "safe" permissions for private keys
+chmod 600 config/id_rsa
+
+cp ../*_*.deb config/src.deb
+
+pip install ansible==2.4.1.0
 exec ansible-playbook --verbose "${@}" config/playbook.yml

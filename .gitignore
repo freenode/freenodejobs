@@ -14,3 +14,8 @@ coverage.xml
 /debian/.debhelper/
 /debian/freenodejobs/
 /.env
+
+# Sync with config/deploy
+config/id_rsa
+config/group_vars/all
+config/roles/nginx/files/privkey.pem

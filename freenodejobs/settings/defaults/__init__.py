@@ -131,13 +131,11 @@ KEYERROR_SECRET_KEY = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 KEYERROR_USER_INFO_CALLBACK = 'freenodejobs.utils.debug.get_keyerror_user_info'
 
 DEFAULT_EMAIL = 'admin@jobs.freenode.net'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'anymail.backends.amazon_ses.EmailBackend'
 DEFAULT_FROM_EMAIL = 'Freenode Jobs <{}>'.format(DEFAULT_EMAIL)
 
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 MEDIA_URL = '/storage/'
-MEDIA_ROOT = '/srv/freenodejobs.chris-lamb.co.uk/storage'
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 AWS_DEFAULT_ACL = 'private'
 AWS_S3_ENCRYPTION = True

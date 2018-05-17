@@ -24,3 +24,4 @@ GeoIP2==2.6.0
 olefile==0.44
 Pillow==4.3.0
 django-markdown-deux==1.0.5
+django-anymail==2.2

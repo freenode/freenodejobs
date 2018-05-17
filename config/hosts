@@ -1,1 +1,1 @@
-freenodejobs.chris-lamb.co.uk
+ec2-35-176-193-228.eu-west-2.compute.amazonaws.com ansible_ssh_user=admin ansible_become=true
