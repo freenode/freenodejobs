@@ -7,6 +7,8 @@ VAULT_FILENAMES="config/group_vars/all config/id_rsa config/roles/nginx/files/pr
 
 export ANSIBLE_CONFIG="config/ansible.cfg"
 
+pip install ansible==2.4.1.0
+
 # Decrypt files
 TEMP="$(mktemp -d)"
 trap 'rm -rf "${TEMP}"' EXIT
@@ -24,5 +26,4 @@ chmod 600 config/id_rsa
 
 cp ../*_*.deb config/src.deb
 
-pip install ansible==2.4.1.0
 exec ansible-playbook --verbose "${@}" config/playbook.yml
