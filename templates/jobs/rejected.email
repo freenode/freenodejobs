@@ -1,13 +1,13 @@
 {% extends email_from_template %}
 
 {% block subject %}
-Your job on Freenode Jobs was rejected
+Your post on jobs.freenode.net has been rejected
 {% endblock %}
 
 {% block body %}
 Hi,
 
-Unfortunately, your job on Freenode Jobs was not approved:
+Unfortunately, your post on jobs.freenode.net has not been approved:
 
 {{ reason|safe }}
 
@@ -19,5 +19,5 @@ After you modify, you can resubmit it here:
 Regards,
 
 -- 
-Freenode Jobs
+The freenode Team
 {% endblock %}
