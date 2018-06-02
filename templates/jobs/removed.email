@@ -1,13 +1,13 @@
 {% extends email_from_template %}
 
 {% block subject %}
-Your job on Freenode Jobs was removed
+Your post on jobs.freenode.net was removed
 {% endblock %}
 
 {% block body %}
 Hi,
 
-Your job on Freenode Jobs was removed:
+Your post on jobs.freenode.net has been removed:
 
 {{ reason|safe }}
 
@@ -19,5 +19,5 @@ You can view all your on your jobs on your dashboard here:
 Regards,
 
 -- 
-Freenode Jobs
+The freenode Team
 {% endblock %}
