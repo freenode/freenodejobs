@@ -1,13 +1,13 @@
 {% extends email_from_template %}
 
 {% block subject %}
-Your job on Freenode Jobs was approved
+Your post on jobs.freenode.net has been approved
 {% endblock %}
 
 {% block body %}
 Hi,
 
-Your job on Freenode Jobs was approved and is now live. You can view it here:
+Your post on jobs.freenode.net has been approved, you can view it here:
 
   {{ settings.SITE_URL }}{{ job.get_absolute_url }}
 
@@ -15,5 +15,5 @@ Your job on Freenode Jobs was approved and is now live. You can view it here:
 Regards,
 
 -- 
-Freenode Jobs
+The freenode team
 {% endblock %}
