@@ -1,10 +1,13 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
 app_name = 'admin'
 
 urlpatterns = (
+    path('', include('freenodejobs.admin.admin_users.urls',
+         namespace='users')),
+
     path('admin', views.view,
          name='view'),
     path('admin/jobs/<slug:slug>/approve', views.approve,

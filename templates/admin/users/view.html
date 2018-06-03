@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Users &mdash; {{ block.super }}{% endblock %}
+{% block subtitle %}Users{% endblock %}
+
+{% block admin %}
+
+<table class="table table-striped mb-4">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Joined</th>
+      <th>&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in page.object_list %}
+    <tr>
+      <td>
+        <pre>{{ user.email }}</pre>
+      </td>
+      <td>
+        <abbr title="{{ user.date_joined }} UTC">{{ user.date_joined|timesince }} ago</abbr>
+      </td>
+      <td>
+        {% if user.is_staff %}
+        <form method="POST" action="{% url "admin:users:remove-admin" user.pk %}" class="form-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline btn-sm">Remove as admin</button>
+        </form>
+        {% else %}
+        <form method="POST" action="{% url "admin:users:set-admin" user.pk %}" class="form-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger btn-sm">Set as admin</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% include "includes/pagination.html" %}
+
+{% endblock %}
