@@ -1,3 +1,4 @@
+import re
 import itertools
 
 from django import forms
@@ -96,6 +97,17 @@ class RemoveForm(forms.Form):
 
 class AddTagForm(forms.Form):
     title = forms.CharField(max_length=255)
+
+    def clean_title(self):
+        val = self.cleaned_data['title'].strip()
+
+        if re.match(r'^[A-Za-z0-9-\+ ]+$', val) is None:
+            raise forms.ValidationError("Please enter a valid tag title.")
+
+        # Canonicalise titles by replacing multiple spaces with a single one
+        val = re.sub(r'\s+', ' ', val)
+
+        return val
 
     def save(self, user):
         title = self.cleaned_data['title']

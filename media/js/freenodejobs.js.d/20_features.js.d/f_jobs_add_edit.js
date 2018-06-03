@@ -4,6 +4,7 @@ $.feature('f_jobs_add_edit', function () {
   var btn = wrapper.find('.js-add-tags-btn');
   var input = wrapper.find('.js-add-tags-value')
   var inputs = wrapper.find('.js-add-tags-inputs');
+  var error_msg = wrapper.find('.js-invalid-tag');
 
   btn.on('click', function () {
     var title = input.val().trim();
@@ -26,7 +27,13 @@ $.feature('f_jobs_add_edit', function () {
       } else {
         inputs.append(html);
       }
+    }).fail(function() {
+      error_msg.removeClass('collapse');
     });
+  });
+
+  input.on('change', function () {
+    error_msg.addClass('collapse');
   });
 
   input.on('keypress', function (e) {

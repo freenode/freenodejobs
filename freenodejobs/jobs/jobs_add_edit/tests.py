@@ -153,6 +153,13 @@ class SubmitForApprovalTests(TestCase):
 
 
 class XHRAddTagTests(TestCase):
+    def assertInvalid(self, data):
+        self.assertPOST(
+            data,
+            'jobs:add-edit:xhr-add-tag',
+            is_ajax=True,
+            status_code=400,
+        )
     def test_success(self):
         self.assertEqual(Tag.objects.count(), 1)
         self.assertPOST(
@@ -178,6 +185,16 @@ class XHRAddTagTests(TestCase):
         )
         self.assertEqual(Tag.objects.count(), 1)
 
+    def test_canonicalise_spaces(self):
+        self.assertEqual(Tag.objects.count(), 1)
+        self.assertPOST(
+            {'title': " Tag  name "},
+            'jobs:add-edit:xhr-add-tag',
+            is_ajax=True,
+            status_code=200,
+        )
+        self.assertEqual(Tag.objects.count(), 1)
+
     def test_slug_clash(self):
         self.assertEqual(Tag.objects.count(), 1)
         self.assertPOST(
@@ -194,17 +211,13 @@ class XHRAddTagTests(TestCase):
         self.assertEqual(tag.slug, 'tag-name-1')
 
     def test_missing(self):
-        self.assertPOST(
-            {},
-            'jobs:add-edit:xhr-add-tag',
-            is_ajax=True,
-            status_code=400,
-        )
+        self.assertInvalid({})
 
     def test_empty(self):
-        self.assertPOST(
-            {'title': ''},
-            'jobs:add-edit:xhr-add-tag',
-            is_ajax=True,
-            status_code=400,
-        )
+        self.assertInvalid({'title': ''})
+
+    def test_just_space(self):
+        self.assertInvalid({'title': ' '})
+
+    def test_invalid_chars(self):
+        self.assertInvalid({'title': 'Tag\u180ename'})
