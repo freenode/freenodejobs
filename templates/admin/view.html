@@ -1,26 +1,6 @@
-{% extends "base/base.html" %}
+{% extends "admin/base.html" %}
 
-{% block title %}Site administration &mdash; {{ block.super }}{% endblock %}
-{% block subtitle %}Site administration{% endblock %}
-
-{% block container %}
-
-{% if not default_device %}
-<div class="card bg-light mb-5">
-  <div class="card-body">
-    <h5 class="card-title">
-      Two-factor authentication not enabled for your account
-    </h5>
-    <p class="card-text">
-      As a site administrator, please enable two-factor authentication (2FA) for
-      enhanced account security.
-    </p>
-    <a href="{% url "account:two-factor-auth:setup" %}" class="card-link">
-      Enable two-factor authentication
-    </a>
-  </div>
-</div>
-{% endif %}
+{% block admin %}
 
 <nav class="nav nav-tabs clearfix mt-3 mb-4">
   {% for x,y in by_state %}
