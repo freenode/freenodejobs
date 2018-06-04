@@ -23,7 +23,6 @@ class ProfileForm(forms.ModelForm):
         if val is None:
             if self.instance._state.adding:
                 raise forms.ValidationError("You must specify an image.")
-
         else:
             if val.size >= max_ * (1024 ** 2):
                 raise forms.ValidationError(
