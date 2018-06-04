@@ -59,20 +59,7 @@
       </form>
 
       <div class="row mt-3">
-        <div class="col-md-3">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">
-                <a href="{% url "jobs:view" %}"><i class="fa fa-list fa-2x"></i>
-              </h5>
-              <h5 class="card-title mb-4">
-                <a href="{% url "jobs:view" %}">All jobs</a>
-              </h5>
-              <a href="{% url "jobs:view" %}" class="btn btn-primary">View</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">
@@ -86,7 +73,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">
@@ -103,12 +90,38 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">
+                <a href="{% url "jobs:view" %}"><i class="fa fa-list fa-2x"></i>
+              </h5>
+              <h5 class="card-title mb-4">
+                <a href="{% url "jobs:view" %}">All jobs</a>
+              </h5>
+              <a href="{% url "jobs:view" %}" class="btn btn-primary">View</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
                 <a href="{% url "jobs:contract" %}"><i class="fa fa-file-text fa-2x"></i>
               </h5>
               <h5 class="card-title mb-4">
                 <a href="{% url "jobs:contract" %}">Contract jobs</a>
               </h5>
               <a href="{% url "jobs:contract" %}" class="btn btn-primary">View</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="{% url "jobs:volunteer" %}"><i class="fa fa-heart fa-2x"></i>
+              </h5>
+              <h5 class="card-title mb-4">
+                <a href="{% url "jobs:volunteer" %}">Volunteer jobs</a>
+              </h5>
+              <a href="{% url "jobs:volunteer" %}" class="btn btn-primary">View</a>
             </div>
           </div>
         </div>

@@ -5,11 +5,13 @@ class JobTypeEnum(Enum):
     FULL_TIME = 10
     PART_TIME = 20
     CONTRACT = 30
+    VOLUNTEER = 40
 
     class Labels:
         FULL_TIME = "Full-time"
         PART_TIME = "Part-time"
         CONTRACT = "Contract"
+        VOLUNTEER = "Volunteer"
 
 
 class StateEnum(Enum):
@@ -29,4 +31,5 @@ JOB_TYPE_MAP = {
     JobTypeEnum.FULL_TIME: 'full-time',
     JobTypeEnum.PART_TIME: 'part-time',
     JobTypeEnum.CONTRACT: 'contract',
+    JobTypeEnum.VOLUNTEER: 'volunteer',
 }

@@ -17,6 +17,8 @@ urlpatterns = [
          {'job_type': JobTypeEnum.PART_TIME}, name='part-time'),
     path('contract-jobs', views.view,
          {'job_type': JobTypeEnum.CONTRACT}, name='contract'),
+    path('volunteer-jobs', views.view,
+         {'job_type': JobTypeEnum.VOLUNTEER}, name='volunteer'),
 
     re_path(r'^job/(?P<prefix>[-a-zA-Z0-9_]+)-(?P<slug>[a-z]{8})$', views.job,
             name='view'),
