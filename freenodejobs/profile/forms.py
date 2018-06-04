@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 
 from freenodejobs.jobs.enums import StateEnum
 
@@ -17,9 +18,17 @@ class ProfileForm(forms.ModelForm):
 
     def clean_image(self):
         val = self.cleaned_data['image']
+        max_ = settings.MAX_PROFILE_IMAGE_SIZE
 
-        if val is None and self.instance._state.adding:
-            raise forms.ValidationError("You must specify an image.")
+        if val is None:
+            if self.instance._state.adding:
+                raise forms.ValidationError("You must specify an image.")
+
+        else:
+            if val.size >= max_ * (1024 ** 2):
+                raise forms.ValidationError(
+                    "Maximum profile image size is {}MB.".format(max_)
+                )
 
         return val
 

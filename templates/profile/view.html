@@ -109,7 +109,8 @@
           <div class="invalid-feedback">{{ x }}</div>
         {% empty %}
           <small class="form-text text-muted">
-            Please upload a high-resolution image for your organisation. (400x400 recommended)
+            Please upload a high-resolution image for your organisation.
+            (400x400 recommended, {{ settings.MAX_PROFILE_IMAGE_SIZE }}MB maximum)
           </small>
         {% endfor %}
       </div>
