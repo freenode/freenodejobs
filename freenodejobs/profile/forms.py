@@ -16,18 +16,20 @@ class ProfileForm(forms.ModelForm):
             'url',
         )
 
+    def clean(self):
+        if self.instance._state.adding and not self.cleaned_data.get('image'):
+            self.add_error('image', "You must specify an image.")
+
+        return self.cleaned_data
+
     def clean_image(self):
         val = self.cleaned_data['image']
         max_ = settings.MAX_PROFILE_IMAGE_SIZE
 
-        if val is None:
-            if self.instance._state.adding:
-                raise forms.ValidationError("You must specify an image.")
-        else:
-            if val.size >= max_ * (1024 ** 2):
-                raise forms.ValidationError(
-                    "Maximum profile image size is {}MB.".format(max_)
-                )
+        if val is not None and val.size >= max_ * (1024 ** 2):
+            raise forms.ValidationError(
+                "Maximum profile image size is {}MB.".format(max_)
+            )
 
         return val
 
