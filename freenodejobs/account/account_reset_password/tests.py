@@ -1,8 +1,7 @@
 from django.conf import settings
 
 from freenodejobs.utils.test import TestCase
-
-from .utils import get_token
+from freenodejobs.utils.tokens import get_token
 
 
 class ViewTests(TestCase):

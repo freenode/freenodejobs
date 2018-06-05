@@ -4,10 +4,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 
 from freenodejobs.utils.user import login
+from freenodejobs.utils.tokens import get_user_from_token
 from freenodejobs.utils.decorators import logout_required
 
 from .forms import EmailForm, SetPasswordForm
-from .utils import get_user_from_token
 
 
 UserModel = get_user_model()

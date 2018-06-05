@@ -3,7 +3,7 @@ from email_from_template import send_mail
 from django import forms
 from django.contrib.auth import get_user_model, forms as auth_forms
 
-from .utils import get_token
+from freenodejobs.utils.tokens import get_token
 
 UserModel = get_user_model()
 

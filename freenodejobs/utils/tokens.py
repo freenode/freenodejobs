@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.core.signing import TimestampSigner, BadSignature
 
-
 UserModel = get_user_model()
 
 
