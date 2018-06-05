@@ -1,0 +1,22 @@
+{% extends email_from_template %}
+
+{% block subject %}
+Freenode Jobs account validation
+{% endblock %}
+
+{% block body %}
+Hi,
+
+Thanks for signing up on Freenode Jobs. To validate your email
+address, please click the following link:
+
+  {{ settings.SITE_URL }}{% url "registration:validate" token %}
+
+If you did not signup for Freenode Jobs, please ignore this email.
+
+
+Regards,
+
+-- 
+Freenode Jobs
+{% endblock %}
