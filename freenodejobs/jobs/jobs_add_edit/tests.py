@@ -160,6 +160,7 @@ class XHRAddTagTests(TestCase):
             is_ajax=True,
             status_code=400,
         )
+
     def test_success(self):
         self.assertEqual(Tag.objects.count(), 1)
         self.assertPOST(
