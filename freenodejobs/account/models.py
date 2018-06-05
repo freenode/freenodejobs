@@ -6,6 +6,7 @@ from .managers import UserManager
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
+    email_validated = models.DateTimeField(null=True)
 
     username = None
     first_name = None
