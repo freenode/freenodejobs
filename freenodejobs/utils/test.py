@@ -76,7 +76,7 @@ class TestCase(TestCase):
     def assertGET(self, status_code, *args, **kwargs):
         client_kwargs = {}
         if kwargs.pop('is_ajax', False):
-            client_kwargs = {'HTTP_X_REQUESTED_WITH': 'XMLHttpRequest'}
+            client_kwargs['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest'
 
         return self.assertStatusCode(
             status_code,
