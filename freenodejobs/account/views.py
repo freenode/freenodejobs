@@ -89,7 +89,7 @@ class LoginView(TwoFactorLoginView):
 def logout(request):
     auth.logout(request)
 
-    messages.success(request, "You have been successfully Logged out.")
+    messages.success(request, "You have been successfully logged out.")
 
     return redirect(settings.LOGOUT_REDIRECT_URL)
 
