@@ -24,6 +24,9 @@ class TestCase(TestCase):
             'password',
         )
 
+        self.user.email_validated = self.user.date_joined
+        self.user.save()
+
         Profile.objects.create(
             user=self.user,
             name="Profile name",
