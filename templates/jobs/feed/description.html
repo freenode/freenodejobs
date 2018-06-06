@@ -1,0 +1,29 @@
+<h1>{{ obj.title }} ({{ obj.job_type }})</h1>
+
+<p>
+  <a href="{{ obj.user.profile.url }}">
+    <img src="{{ obj.user.profile.image.resized.url }}" alt="{{ obj.user.profile.name }}">
+  </a>
+</p>
+
+<p>
+  <a href="{{ obj.user.profile.url }}">
+    <strong>{{ obj.user.profile.name }}</strong>
+  </a>
+</p>
+
+<p>
+  Location: <em>{{ obj.location }}</em>
+</p>
+
+{% if job.tags.exists %}
+<p>
+  Tags: <em>{% for x in job.tags.all %}{{ x.title }}{% endfor %}</em>
+</p>
+{% endif %}
+
+{{ obj.description|markdown }}
+
+<p>
+  <a href="{{ obj.apply_url }}">Apply</a>
+</p>

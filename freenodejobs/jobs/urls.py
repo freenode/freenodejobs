@@ -1,6 +1,6 @@
 from django.urls import path, re_path, include
 
-from . import views
+from . import feeds, views
 from .enums import JobTypeEnum
 
 app_name = 'jobs'
@@ -24,4 +24,7 @@ urlpatterns = [
             name='view'),
     re_path(r'^job/(?P<slug>[a-z]{8})$', views.job,
             name='view'),
+
+    path('feed', feeds.AllJobs(),
+         name='feed'),
 ]

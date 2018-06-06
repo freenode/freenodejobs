@@ -57,3 +57,8 @@ class JobTest(TestCase):
         self.job.set_state(StateEnum.REMOVED, self.user, "")
         self.job.save()
         self.assertStatusCode(404, self.client.get, self.job)
+
+
+class FeedTest(TestCase):
+    def test_view(self):
+        self.assertGET(200, 'jobs:feed')
