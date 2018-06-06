@@ -59,9 +59,6 @@
           <div class="info">
             {% include "includes/job_type.html" %}
             <i class="fa fa-map-marker ml-3" aria-hidden="true"></i> <span class="pr-3">{{ job.location }}</span>
-            {% for x in job.tags.all %}
-              <span class="badge badge-secondary">{{ x.title }}</span>
-            {% endfor %}
           </div>
           <div class="content">
             <div class="dates">
@@ -83,11 +80,11 @@
               <a rel="nofollow" href="{{ job.apply_url }}" class="btn btn-default btn-block">Apply</a>
             </div>
 
-            {% comment %}
             <div id="tag">
-              <a href="#">HTML</a><a href="#">CSS</a><a href="#">Bootstrap</a><a href="#">Frontend Enginer</a><a href="#">Remote</a>
+              {% for x in job.tags.all %}
+                <a href="#">{{ x.title }}</span>
+              {% endfor %}
             </div>
-            {% endcomment %}
           </div>
         </div>
       </div>
