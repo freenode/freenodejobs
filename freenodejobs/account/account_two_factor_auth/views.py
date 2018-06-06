@@ -39,6 +39,14 @@ class SetupView(two_factor_views.SetupView):
     success_url = 'account:two-factor-auth:enabled'
     template_name = 'account/two_factor_auth/setup.html'
 
+    def get_context_data(self, form, **kwargs):
+        context = super().get_context_data(form, **kwargs)
+
+        if self.steps.current == 'generator':
+            context['qr_key'] = self.request.session[self.session_key_name]
+
+        return context
+
 
 @class_view_decorator(login_required)
 class QRGeneratorView(two_factor_views.QRGeneratorView):
