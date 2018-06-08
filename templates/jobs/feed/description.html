@@ -25,5 +25,12 @@
 {{ obj.description|markdown }}
 
 <p>
+{% if obj.apply_url and obj.apply_email %}
+  <a href="{{ obj.apply_url }}">Apply directly</a> or email
+  <a href="mailto:{{ obj.apply_email }}">{{ obj.apply_email }}</a>
+{% elif obj.apply_url %}
   <a href="{{ obj.apply_url }}">Apply</a>
+{% elif obj.apply_email %}
+  Email <a href="mailto:{{ obj.apply_url }}">{{ obj.apply_email }}</a> to apply.
+{% endif %}
 </p>

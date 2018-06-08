@@ -34,6 +34,7 @@ class AddTests(TestCase):
             'location': "Job location",
             'description': "Job description",
             'apply_url': 'https://example.com/',
+            'apply_email': 'foo@bar.com',
             'job_type': JobTypeEnum.CONTRACT.value,
         }, 'jobs:add-edit:add')
 
@@ -42,8 +43,8 @@ class AddTests(TestCase):
     def test_POST_invalid(self):
         response = self.assertPOST({}, 'jobs:add-edit:add', status_code=200)
 
-        self.assertFormError(response, 'form', 'title', [
-            "This field is required."
+        self.assertFormError(response, 'form', 'apply_url', [
+            "You must specify at least one application method.",
         ])
 
 

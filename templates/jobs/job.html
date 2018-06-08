@@ -76,9 +76,18 @@
             {{ job.description|markdown }}
             <br>
 
-            <div id="apply">
+            {% if job.apply_url %}
+            <div id="apply" class="mb-2">
               <a rel="nofollow" href="{{ job.apply_url }}" class="btn btn-default btn-block">Apply</a>
             </div>
+            {% endif %}
+
+            {% if job.apply_email %}
+            <p>
+              {% if job.apply_url %}&hellip; or you can{% else %}Please{% endif %}
+              apply by emailing <a href="mailto:{{ job.apply_email }}">{{ job.apply_email }}</a>.
+            </p>
+            {% endif %}
 
             <div id="tag">
               {% for x in job.tags.all %}
@@ -101,10 +110,12 @@
             <a href="#"><i class="fa fa-globe" aria-hidden="true"></i></a>
             {% endcomment %}
           </div>
-          <div id="mini-apply">
+
+          {% if job.apply_url %}
+          <div id="mini-apply" class="mb-1">
             <a href="{{ job.apply_url }}" rel="nofollow" class="btn btn-default btn-block">Apply</a>
           </div>
-
+          {% endif %}
         </div>
 
         {% if job.user.jobs.live.count %}

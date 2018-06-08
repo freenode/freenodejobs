@@ -104,30 +104,66 @@
     {% endfor %}
   </div>
 
-  <div class="form-group col-md-12">
-    <label class="col-form-label" for="{{ form.apply_url.id_for_label }}">
-      URL to apply
-    </label>
-    <input
-      id="{{ form.apply_url.id_for_label }}"
-      type="url"
-      class="form-control {% if form.errors %}{% if form.errors.apply_url %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
-      name="{{ form.apply_url.html_name }}"
-      value="{{ form.apply_url.value|default:"" }}"
-      maxlength="{{ form.apply_url.field.max_length|default:"" }}"
-      placeholder=""
-      {% if form.apply_url.field.required %}required{% endif %}
-    >
-    {% for x in form.errors.apply_url %}
-      <div class="invalid-feedback">{{ x }}</div>
-    {% empty %}
-      <small class="form-text text-muted">
-        Enter the address where applicants should submit their CV, etc.
-      </small>
-    {% endfor %}
+  <div class="form-row col-md-12">
+    <div class="col-md-6">
+      <label class="col-form-label" for="{{ form.apply_url.id_for_label }}">
+        URL to apply
+      </label>
+      <div class="input-group">
+        <div class="input-group-addon">
+          <span class="input-group-text"><i class="fa fa-home"></i></span>
+        </div>
+        <input
+          id="{{ form.apply_url.id_for_label }}"
+          type="url"
+          class="form-control {% if form.errors %}{% if form.errors.apply_url %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+          name="{{ form.apply_url.html_name }}"
+          value="{{ form.apply_url.value|default:"" }}"
+          maxlength="{{ form.apply_url.field.max_length|default:"" }}"
+          placeholder=""
+          {% if form.apply_url.field.required %}required{% endif %}
+        >
+      </div>
+      {% for x in form.errors.apply_url %}
+        <div class="invalid-feedback">{{ x }}</div>
+      {% endfor %}
+    </div>
+
+    <div class="col-md-6">
+      <label class="col-form-label" for="{{ form.apply_email.id_for_label }}">
+        Email to apply
+      </label>
+      <div class="input-group">
+        <div class="input-group-addon">
+          <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+        </div>
+        <input
+          id="{{ form.apply_email.id_for_label }}"
+          type="email"
+          class="form-control {% if form.errors %}{% if form.errors.apply_email %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+          name="{{ form.apply_email.html_name }}"
+          value="{{ form.apply_email.value|default:"" }}"
+          maxlength="{{ form.apply_email.field.max_length|default:"" }}"
+          placeholder=""
+          {% if form.apply_email.field.required %}required{% endif %}
+        >
+      </div>
+      {% for x in form.errors.apply_email %}
+        <div class="invalid-feedback">{{ x }}</div>
+      {% endfor %}
+    </div>
   </div>
 
+  {% if not form.errors.apply_url and not form.errors.email_url %}
   <div class="form-group col-md-12">
+    <small class="form-text text-muted">
+      Enter the web address and/or email address where applicants should
+      submit their CV, etc.
+    </small>
+  </div>
+  {% endif %}
+
+  <div class="form-group col-md-12 mt-3">
     <label class="col-form-label" for="{{ form.description.id_for_label }}">
       Description
     </label>

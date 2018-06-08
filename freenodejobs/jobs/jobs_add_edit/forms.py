@@ -18,6 +18,7 @@ class AddEditForm(forms.ModelForm):
             'job_type',
             'location',
             'apply_url',
+            'apply_email',
             'description',
             'tags',
         )
@@ -31,6 +32,17 @@ class AddEditForm(forms.ModelForm):
 
         # Remove empty label
         self.fields['job_type'].choices.pop(0)
+
+    def clean(self):
+        if not self.cleaned_data.get('apply_url') and \
+                not self.cleaned_data.get('apply_email'):
+            self.add_error(
+                'apply_url',
+                "You must specify at least one application method.",
+            )
+            self.add_error('apply_email', '')
+
+        return self.cleaned_data
 
     def save(self, user):
         instance = super().save(commit=False)

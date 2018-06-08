@@ -34,7 +34,8 @@ class Job(models.Model):
     title = models.CharField(max_length=255)
     job_type = EnumIntegerField(JobTypeEnum)
     location = models.CharField(max_length=255)
-    apply_url = models.URLField()
+    apply_url = models.URLField(blank=True)
+    apply_email = models.EmailField(blank=True)
     description = models.TextField()
 
     tags = models.ManyToManyField(
