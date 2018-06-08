@@ -2,8 +2,6 @@ from email_from_template import send_mail
 
 from django.contrib.auth import get_user_model
 
-from freenodejobs.utils import log
-
 from .enums import StateEnum
 
 UserModel = get_user_model()
@@ -18,8 +16,6 @@ def dispatch(job, old_state, new_state, actor, description):
         new_state=new_state,
         description=description,
     )
-
-    log.info("Job #{} state {} -> {}", job.pk, old_state, new_state)
 
     for x, y, fn in TRANSITIONS:
         if (old_state, new_state) == (x, y):
