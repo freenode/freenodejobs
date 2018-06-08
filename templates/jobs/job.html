@@ -7,7 +7,16 @@
 
 {% block container %}
 
-{% if request.user.is_staff and job.state.name == "WAITING_FOR_APPROVAL" %}
+{% if request.user.is_staff %}
+{% switch job.state.name %}
+{% case "NEW" %}
+<div class="card bg-light mb-3">
+  <div class="card-body">
+    <h5 class="card-title">This draft job has not been submitted for approval.</h5>
+  </div>
+</div>
+{% endcase %}
+{% case "WAITING_FOR_APPROVAL" %}
 <div class="card bg-light mb-3">
   <div class="card-body">
     <h5 class="card-title">This job is pending approval.</h5>
@@ -15,7 +24,9 @@
     <a href="{% url "admin:reject" job.slug %}" class="card-link">Reject</a>
   </div>
 </div>
-{% endif  %}
+{% endcase %}
+{% endswitch %}
+{% endif %}
 
 {% if request.user == job.user %}
 {% switch job.state.name %}

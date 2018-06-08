@@ -28,8 +28,8 @@ def view(request, job_type=None):
 def job(request, slug, prefix=None):
     job = get_object_or_404(Job, slug=slug)
 
-    if job.state != StateEnum.LIVE and \
-            (request.user != job.user or not request.user.is_staff):
+    if not (job.state == StateEnum.LIVE or request.user == job.user or
+            request.user.is_staff):
         raise Http404()
 
     if job.state == StateEnum.REMOVED:
