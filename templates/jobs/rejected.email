@@ -11,7 +11,7 @@ Unfortunately, your post on jobs.freenode.net has not been approved:
 
 {{ reason|safe }}
 
-After you modify, you can resubmit it here:
+You can modify and resubmit it here:
 
   {{ settings.SITE_URL }}{% url "jobs:add-edit:edit" job.slug %}
 
