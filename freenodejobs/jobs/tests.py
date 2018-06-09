@@ -1,7 +1,10 @@
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 
 from freenodejobs.utils.test import TestCase
 from freenodejobs.jobs.enums import JobTypeEnum, StateEnum
+
+UserModel = get_user_model()
 
 
 class ViewTest(TestCase):
@@ -32,31 +35,88 @@ class ViewTest(TestCase):
         self.assertGET(200, '{}?q=foo'.format(reverse('jobs:full-time')))
 
 
-class JobTest(TestCase):
-    def test_new(self):
-        self.job.set_state(StateEnum.NEW, self.user, "")
-        self.job.save()
-        self.assertStatusCode(404, self.client.get, self.job)
+class BaseJobTestCase(TestCase):
+    def setUp(self, state):
+        super().setUp()
 
-    def test_new_to_waiting_for_approval(self):
-        self.job.set_state(StateEnum.WAITING_FOR_APPROVAL, self.user, "")
+        self.job.set_state(state, self.user, "")
         self.job.save()
-        self.assertStatusCode(404, self.client.get, self.job)
 
-    def test_waiting_for_approval_to_new(self):
-        self.job.set_state(StateEnum.WAITING_FOR_APPROVAL, self.user, "")
-        self.job.save()
-        self.assertStatusCode(404, self.client.get, self.job)
+        self.other = UserModel.objects.create_user(
+            'other@example.com',
+            'password',
+        )
 
-    def test_waiting_to_live(self):
-        self.job.set_state(StateEnum.LIVE, self.user, "")
-        self.job.save()
-        self.assertGET(200, self.job)
+    def assertJobStatusCode(self, status, user):
+        self.assertStatusCode(status, self.client.get, self.job, login=user)
 
-    def test_live_to_removed(self):
-        self.job.set_state(StateEnum.REMOVED, self.user, "")
-        self.job.save()
-        self.assertStatusCode(404, self.client.get, self.job)
+
+class NewJobTest(BaseJobTestCase):
+    def setUp(self):
+        super().setUp(StateEnum.NEW)
+
+    def test_anonymous(self):
+        self.assertJobStatusCode(404, None)
+
+    def test_creator(self):
+        self.assertJobStatusCode(200, self.user)
+
+    def test_other_user(self):
+        self.assertJobStatusCode(404, self.other)
+
+    def test_staff(self):
+        self.assertJobStatusCode(200, self.admin)
+
+
+class WaitingForApprovalJobTest(BaseJobTestCase):
+    def setUp(self):
+        super().setUp(StateEnum.WAITING_FOR_APPROVAL)
+
+    def test_anonymous(self):
+        self.assertJobStatusCode(404, None)
+
+    def test_creator(self):
+        self.assertJobStatusCode(200, self.user)
+
+    def test_other_user(self):
+        self.assertJobStatusCode(404, self.other)
+
+    def test_staff(self):
+        self.assertJobStatusCode(200, self.admin)
+
+
+class LiveJobTest(BaseJobTestCase):
+    def setUp(self):
+        super().setUp(StateEnum.LIVE)
+
+    def test_anonymous(self):
+        self.assertJobStatusCode(200, None)
+
+    def test_creator(self):
+        self.assertJobStatusCode(200, self.user)
+
+    def test_other_user(self):
+        self.assertJobStatusCode(200, self.other)
+
+    def test_staff(self):
+        self.assertJobStatusCode(200, self.admin)
+
+
+class RemovedJobTest(BaseJobTestCase):
+    def setUp(self):
+        super().setUp(StateEnum.REMOVED)
+
+    def test_anonymous(self):
+        self.assertJobStatusCode(410, None)
+
+    def test_creator(self):
+        self.assertJobStatusCode(410, self.user)
+
+    def test_other_user(self):
+        self.assertJobStatusCode(410, self.other)
+
+    def test_staff(self):
+        self.assertJobStatusCode(410, self.admin)
 
 
 class FeedTest(TestCase):
