@@ -4,8 +4,11 @@ from django.core.signing import TimestampSigner, BadSignature
 UserModel = get_user_model()
 
 
-def get_token(user):
-    return TimestampSigner(salt=user.password).sign(user.email)
+def get_token(user, *args):
+    keys = [user.email]
+    keys.extend(args)
+
+    return TimestampSigner(salt=user.password).sign(':'.join(keys))
 
 
 def get_user_from_token(token):
@@ -22,3 +25,13 @@ def get_user_from_token(token):
         return None
 
     return user
+
+
+def get_value_from_token(token, idx):
+    parts = token.split(':')
+
+    # Ensure we have enough values
+    if len(parts) < 4 + idx:
+        return None
+
+    return parts[idx + 1]
