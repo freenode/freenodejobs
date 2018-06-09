@@ -42,6 +42,9 @@ class RegistrationTests(TestCase):
             "User with this Email already exists.",
         ])
 
+    def test_success(self):
+        self.assertGET(200, 'registration:success', login=None)
+
     def test_validate(self):
         user = self.assertRegister()
 
