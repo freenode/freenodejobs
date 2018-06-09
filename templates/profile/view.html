@@ -5,7 +5,11 @@
 
 {% block container %}
 
-{% if not profile %}
+{% if profile %}
+<p class="text-right">
+  <a href="{% url "account:password-change" %}" class="btn btn-secondary">Change password</a>
+</p>
+{% else %}
 <p>
   Before you can create a job, you must setup your organisation's profile.
 </p>
