@@ -19,7 +19,7 @@ def dispatch(job, old_state, new_state, actor, description):
         description=description,
     )
 
-    log.info("Job #{} state {} -> {}", job.pk, old_state, new_state)
+    log.info("Job #%s state %s -> %s", job.pk, old_state, new_state)
 
     for x, y, fn in TRANSITIONS:
         if (old_state, new_state) == (x, y):
