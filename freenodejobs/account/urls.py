@@ -5,6 +5,8 @@ from . import views
 app_name = 'account'
 
 urlpatterns = (
+    path('', include('freenodejobs.account.account_change_email.urls',
+         namespace='change-email')),
     path('', include('freenodejobs.account.account_reset_password.urls',
          namespace='reset-password')),
     path('', include('freenodejobs.account.account_two_factor_auth.urls',

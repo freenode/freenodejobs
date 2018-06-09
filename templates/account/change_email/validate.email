@@ -1,0 +1,22 @@
+{% extends email_from_template %}
+
+{% block subject %}
+Freenode Jobs email validation
+{% endblock %}
+
+{% block body %}
+Hi,
+
+To validate your new email address on Freenode Jobs, please click the following
+link:
+
+  {{ settings.SITE_URL }}{% url "account:change-email:validate" token %}
+
+If you did not request this email change, please ignore this email.
+
+
+Regards,
+
+-- 
+Freenode Jobs
+{% endblock %}

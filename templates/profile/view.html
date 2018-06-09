@@ -8,6 +8,7 @@
 {% if profile %}
 <p class="text-right">
   <a href="{% url "account:password-change" %}" class="btn btn-secondary">Change password</a>
+  <a href="{% url "account:change-email:view" %}" class="btn btn-secondary">Change email</a>
 </p>
 {% else %}
 <p>
