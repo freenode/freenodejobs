@@ -1,7 +1,7 @@
 {% extends email_from_template %}
 
 {% block subject %}
-Your post on jobs.freenode.net has been approved
+Your post on jobs.freenode.net has been approved ("{{ job.title|safe }}")
 {% endblock %}
 
 {% block body %}

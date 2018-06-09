@@ -1,7 +1,7 @@
 {% extends email_from_template %}
 
 {% block subject %}
-Your post on jobs.freenode.net was removed
+Your "{{ job.title|safe }}" post on jobs.freenode.net was removed
 {% endblock %}
 
 {% block body %}

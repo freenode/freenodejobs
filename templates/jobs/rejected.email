@@ -1,7 +1,7 @@
 {% extends email_from_template %}
 
 {% block subject %}
-Your post on jobs.freenode.net has been rejected
+Your "{{ job.title|safe }}" post on jobs.freenode.net has been rejected
 {% endblock %}
 
 {% block body %}

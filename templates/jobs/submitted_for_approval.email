@@ -1,7 +1,7 @@
 {% extends email_from_template %}
 
 {% block subject %}
-A job was just submitted for approval
+A job was just submitted for approval by {{ job.user.profile.name|safe }}
 {% endblock %}
 
 {% block body %}
