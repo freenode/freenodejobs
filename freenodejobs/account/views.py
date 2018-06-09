@@ -35,7 +35,7 @@ class LoginView(TwoFactorLoginView):
     def done(self, *args, **kwargs):
         response = super().done(*args, **kwargs)
 
-        log.info(self.request, "Login successful")
+        log.info("Login successful", request=self.request)
 
         if self.request.user.is_staff and \
                 self.redirect_field_name not in self.request.GET:

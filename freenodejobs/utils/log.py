@@ -18,9 +18,10 @@ def info(*args, **kwargs):
     _log(logging.INFO, *args, **kwargs)
 
 
-def _log(level, request, *args, **kwargs):
+def _log(level, *args, **kwargs):
     logger = logging.getLogger('freenodejobs')
 
+    request = kwargs.pop('request', None)
     changed_data = []
 
     try:
@@ -59,10 +60,15 @@ class FreenodejobsFormatter(logging.Formatter):
                     xs.append('{}: {!r} -> {!r}'.format(name, prev, current))
             record.msg = '{} ({})'.format(record.msg, ', '.join(xs))
 
-        record.path_info = request.path
-        record.remote_addr = request.META['REMOTE_ADDR']
-        record.email = request.user.email \
-            if request.user.is_authenticated else '-'
+        record.email = '-'
+        record.geoip = 'unknown'
+        record.remote_addr = 'unknown'
+
+        if request is not None:
+            record.path_info = request.path
+            record.remote_addr = request.META['REMOTE_ADDR']
+            record.email = request.user.email \
+                if request.user.is_authenticated else '(anonymous)'
 
         try:
             data = GEOIP.city(request.META['REMOTE_ADDR'])
@@ -70,6 +76,6 @@ class FreenodejobsFormatter(logging.Formatter):
                 data[x] for x in ('city', 'country_name') if data[x]
             )
         except Exception:
-            record.geoip = "unknown"
+            pass
 
         return super().format(record)
