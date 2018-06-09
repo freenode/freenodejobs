@@ -142,7 +142,7 @@ AWS_S3_ENCRYPTION = True
 AWS_QUERYSTRING_EXPIRE = 86400 * 7  # Max of 1 week
 AWS_STORAGE_BUCKET_NAME = 'freenodejobs'
 
-MAX_PROFILE_IMAGE_SIZE = 3 # MiB
+MAX_PROFILE_IMAGE_SIZE = 3  # MiB
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.{}'.format(x)}
