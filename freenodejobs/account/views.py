@@ -57,8 +57,9 @@ class LoginView(TwoFactorLoginView):
         email = self.request.POST.get('auth-email', '')
         ip_address = self.request.META['REMOTE_ADDR']
 
-        log.warning(self.request, "Rejected login attempt for {!r}".format(
-                    email))
+        log.warning(
+            "Rejected login attempt for %r", email, request=self.request,
+        )
 
         for resource, val, prefix in (
             ('login:email', email, "for the email"),
