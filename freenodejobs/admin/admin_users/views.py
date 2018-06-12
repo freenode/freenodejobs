@@ -1,3 +1,4 @@
+from django.http import HttpResponseBadRequest
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
@@ -6,16 +7,23 @@ from django.views.decorators.http import require_POST
 from freenodejobs.utils.paginator import AutoPaginator
 from freenodejobs.utils.decorators import staff_required
 
+from .forms import FilterForm
+
 User = get_user_model()
 
 
 @staff_required
 def view(request):
-    users = User.objects.order_by('-is_staff', 'date_joined')
+    form = FilterForm(request.GET)
 
-    page = AutoPaginator(request, users, 20).current_page()
+    if not form.is_valid():
+        return HttpResponseBadRequest(form.errors.as_json())
+
+    qs = User.objects.all()
+    page = AutoPaginator(request, form.apply_filter(qs), 20).current_page()
 
     return render(request, 'admin/users/view.html', {
+        'form': form,
         'page': page,
     })
 

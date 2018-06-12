@@ -1,9 +1,46 @@
 {% extends "admin/base.html" %}
 
+{% block body_classes %}{{ block.super }} f_admin_users{% endblock %}
+
 {% block title %}Users &mdash; {{ block.super }}{% endblock %}
 {% block subtitle %}Users{% endblock %}
 
 {% block admin %}
+
+<form method="GET" action="" class="form-inline pull-right mb-3">
+  <label class="col-form-label mr-2" for="{{ form.order_by.id_for_label }}">
+    Order by:
+  </label>
+  <select
+    id="{{ form.order_by.id_for_label }}"
+    class="js-filter-form-control form-control"
+    name="{{ form.order_by.html_name }}"
+  >
+    {% for val, display in form.order_by.field.choices %}
+    <option
+      value="{{ val }}"
+      {% if form.order_by.value|stringformat:"s" == val|stringformat:"s" %}selected{% endif %}
+    >{{ display }}</option>
+    {% endfor %}
+  </select>
+
+  <div class="form-check form-check-inline ml-4">
+    <label class="form-check-label">
+      <input
+        id="{{ form.only_admins.id_for_label }}"
+        type="checkbox"
+        name="{{ form.only_admins.html_name }}"
+        class="js-filter-form-control form-check-input"
+        {% if form.only_admins.value %}checked{% endif %}
+      >
+      Only show admins
+    </label>
+  </div>
+</form>
+
+<div class="clearfix"></div>
+
+<hr>
 
 <table class="table table-striped mb-4">
   <thead>
