@@ -1,9 +1,17 @@
+from django.urls import reverse
 from freenodejobs.utils.test import TestCase
 
 
 class SmokeTest(TestCase):
     def test_view(self):
         self.assertGET(200, 'admin:users:view', login=self.admin)
+
+    def test_view_admins(self):
+        self.assertGET(
+            200,
+            '{}?only_admins=on'.format(reverse('admin:users:view')),
+            login=self.admin,
+        )
 
     def test_edit_GET(self):
         self.assertGET(200, 'admin:users:edit', self.user.pk, login=self.admin)
