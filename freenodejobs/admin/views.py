@@ -1,5 +1,3 @@
-from two_factor.utils import default_device
-
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -31,7 +29,6 @@ def view(request, state_slug=''):
         'page': page,
         'state': state,
         'by_state': by_state,
-        'default_device': default_device(request.user),
     })
 
 

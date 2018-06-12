@@ -42,6 +42,7 @@ TEMPLATES = [{
             'django.template.context_processors.media',
             'django.template.context_processors.request',
             'django.contrib.messages.context_processors.messages',
+            'freenodejobs.utils.context_processors.django_otp_context',
             'freenodejobs.utils.context_processors.settings_context',
         ],
         'builtins': [
