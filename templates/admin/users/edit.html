@@ -1,0 +1,118 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Editing user {{ user.email }}&mdash; {{ block.super }}{% endblock %}
+{% block subtitle %}Editing user {{ user.email }}{% endblock %}
+
+{% block admin %}
+
+{% if form.non_field_errors %}
+<div class="alert alert-danger mb-5">
+  <h4 class="alert-heading">
+    Validation error
+  </h4>
+  <hr>
+  {% for x in form.non_field_errors %}
+    <p class="mb-1">{{ x }}</p>
+  {% endfor %}
+</div>
+{% endif %}
+
+<form
+  method="POST"
+  class=""
+  action=""
+  {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}
+>
+  {% csrf_token %}
+
+  <div class="form-group col-md-12">
+    <label class="col-form-label" for="{{ form.email.id_for_label }}">
+      Email
+    </label>
+    <input
+      id="{{ form.email.id_for_label }}"
+      type="email"
+      class="form-control {% if form.errors %}{% if form.errors.email %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+      name="{{ form.email.html_name }}"
+      value="{{ form.email.value|default:"" }}"
+      maxlength="{{ form.email.field.max_length|default:"" }}"
+      placeholder=""
+      {% if form.email.field.required %}required{% endif %}
+    >
+    {% for x in form.errors.email %}
+      <div class="invalid-feedback">{{ x }}</div>
+    {% endfor %}
+  </div>
+
+  <div class="form-group col-md-12">
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input
+          id="{{ form.email_validated.id_for_label }}"
+          type="checkbox"
+          name="{{ form.email_validated.html_name }}"
+          class="form-check-input {% if form.errors %}{% if form.errors.email_validated %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+          {% if form.instance.email_validated %}checked{% endif %}
+        >
+        Email validated?
+        {% if form.email_validated.value %}
+        <small class="form-text text-muted">
+          Previously validated {{ form.instance.email_validated }}
+        </small>
+        {% endif %}
+        {% for x in form.errors.email_validated %}
+          <div class="invalid-feedback">{{ x }}</div>
+        {% endfor %}
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group col-md-12">
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input
+          id="{{ form.is_staff.id_for_label }}"
+          type="checkbox"
+          name="{{ form.is_staff.html_name }}"
+          class="form-check-input {% if form.errors %}{% if form.errors.is_staff %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+          {% if form.is_staff.value %}checked{% endif %}
+        >
+        User is admin?
+        {% for x in form.errors.is_staff %}
+          <div class="invalid-feedback">{{ x }}</div>
+        {% endfor %}
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group col-md-12">
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input
+          id="{{ form.is_active.id_for_label }}"
+          type="checkbox"
+          name="{{ form.is_active.html_name }}"
+          class="form-check-input {% if form.errors %}{% if form.errors.is_active %}is-invalid{% else %}{% if not form.non_field_errors %}is-valid{% endif %}{% endif %}{% endif %}"
+          {% if form.is_active.value %}checked{% endif %}
+        >
+        Account enabled?
+        {% for x in form.errors.is_active %}
+          <div class="invalid-feedback">{{ x }}</div>
+        {% endfor %}
+      </label>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary my-3">
+    Save
+  </button>
+
+  <dl>
+    <dt>Date joined</dt>
+    <dd>{{ user.date_joined }}</dd>
+    <dt>Last login</dt>
+    <dd>{{ user.last_login|default:"(none)" }}</dd>
+  </dl>
+</form>
+
+{% endblock %}

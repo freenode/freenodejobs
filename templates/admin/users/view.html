@@ -60,17 +60,7 @@
         <abbr title="{{ user.date_joined }} UTC">{{ user.date_joined|timesince }} ago</abbr>
       </td>
       <td>
-        {% if user.is_staff %}
-        <form method="POST" action="{% url "admin:users:remove-admin" user.pk %}" class="form-inline">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-outline btn-sm">Remove as admin</button>
-        </form>
-        {% else %}
-        <form method="POST" action="{% url "admin:users:set-admin" user.pk %}" class="form-inline">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-danger btn-sm">Set as admin</button>
-        </form>
-        {% endif %}
+        <a href="{% url "admin:users:edit" user.pk %}" class="btn btn-primary btn-outline">Edit</a>
       </td>
     </tr>
     {% endfor %}
