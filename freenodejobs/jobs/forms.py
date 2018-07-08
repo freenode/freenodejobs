@@ -3,6 +3,7 @@ from urllib.parse import urlencode
 from django import forms
 from django.urls import reverse
 from django.db.models import Q
+from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 from .enums import JobTypeEnum, JOB_TYPE_MAP
@@ -52,7 +53,7 @@ class FilterForm(forms.ModelForm):
                              if self.cleaned_data['job_type'] else "All")
 
         if self.cleaned_data['q']:
-            x = "{} matching <em>{}</em>".format(x, self.cleaned_data['q'])
+            x = "{} matching <em>{}</em>".format(x, escape(self.cleaned_data['q']))
 
         return mark_safe(x)
 
