@@ -72,7 +72,7 @@
             {% for x in job.tags.all %}
               <span class="badge badge-secondary" style="color: white;">{{ x.title }}</span>
             {% endfor %}
-            <span>{{ job.description|markdown|truncatewords_html:10 }}</span>
+            <p>{{ job.description|markdown|truncatewords_html:10|striptags }}</p>
             <span><p>[<a href="{{ job.get_absolute_url }}" style="margin-right: 0;">&hellip;</a>]</p></span>
           </p>
           <div class="clearfix"></div>
