@@ -22,6 +22,6 @@ redis==2.10.6
 django_keyerror==3.5.2
 GeoIP2==2.6.0
 olefile==0.44
-Pillow==4.3.0
+Pillow==8.1.1
 django-markdown-deux==1.0.5
 django-anymail==2.2
